@@ -1,0 +1,481 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>Javaweb学习07-EL表达式 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Javaweb学习07-EL表达式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-03-10 21:30" pubdate>
+        2018年3月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Javaweb学习07-EL表达式</h1>
+            
+            <div class="markdown-body">
+              <h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><p>用于获取数据，使用标识符${标识符}形式，通过JSP引擎调用</p>
+<p><strong>11个隐含对象</strong><br>pageContext          对应于JSP页面中的pageContext对象（注意：取的是pageContext对象。）<br>pageScope            代表page域中用于保存属性的Map对象<br>requestScope        代表request域中用于保存属性的Map对象<br>sessionScope        代表session域中用于保存属性的Map对象<br>applicationScope    代表application域中用于保存属性的Map对象<br>param                表示一个保存了所有请求参数的Map对象<br>paramValues       表示一个保存了所有请求参数的Map对象，它对于某个请求参数，返回的是一个string[]<br>header              表示一个保存了所有http请求头字段的Map对象<br>headerValues        同上，返回string[]数组。注意：如果头里面有“-” ，例Accept-Encoding，则要headerValues[“Accept-Encoding”]<br>cookie              表示一个保存了所有cookie的Map对象<br>initParam            表示一个保存了所有web应用初始化参数的map对象  </p>
+<p>测试cookie时，例${cookie.key}取的是cookie对象，如访问cookie的名称和值，须${cookie.key.name}或${cookie.key.value}</p>
+<p>EL自定义函数用于扩展EL表达式的功能，可以让EL表达式完成普通Java程序代码所能完成的功能。<br>EL自定义函数开发与应用包括以下三个步骤：  </p>
+<ol>
+<li>编写一个Java类的静态方法  </li>
+<li>编写标签库描述符（tld）文件，在tld文件中描述自定义函数</li>
+<li>在JSP页面中导入和使用自定义函数<br>示例：${prefix：method(params)</li>
+</ol>
+<p>编写完标签库描述文件后，需要将它放置到&lt;web应用&gt;\WEB-INF目录中或WEB-INF目录下的除了classes和lib目录之外的任意子目录中。<br>TLD文件中的<uri> 元素用指定该TLD文件的URI，在JSP文件中需要通过这个URI来引入该标签库描述文件。<br><function>元素用于描述一个EL自定义函数，其中：<br><name>子元素用于指定EL自定义函数的名称。<br><function-class>子元素用于指定完整的Java类名，<br><function-signature>子元素用于指定Java类中的静态方法的签名，方法签名必须指明方法的返回值类型及各个参数的类型，各个参数之间用逗号分隔。</p>
+<p>常用el函数(涉及与字符串处理相关)<br>在页面中使用JSTL定义的EL函数：<br>&lt;%@taglib uri=”<a target="_blank" rel="noopener" href="http://java.sun.com/jsp/jstl/functions&quot;">http://java.sun.com/jsp/jstl/functions&quot;</a> prefix=”fn”%&gt;</p>
+<p><strong>fn:toLowerCase</strong></p>
+<p>fn:toLowerCase函数将一个字符串中包含的所有字符转换为小写形式，并返回转换后的字符串，它接收一个字符 串类型的参数，例如<br>fn:toLowerCase(“Www.IT315.org”) 的返回值为字符串“<a target="_blank" rel="noopener" href="http://www.it315.org”/">www.it315.org”</a><br>fn:toLowerCase(“”)的返回值为空字符串</p>
+<p><strong>fn:toUpperCase</strong></p>
+<p>fn:toUpperCase函数将一个字符串中包含的所有字符转换为大写形式，并返回转换后的字符串，它接收一个字符串类型的参数。例如：<br>fn:toUpperCase(“Www.IT315.org”) 的返回值为字符串“WWW.IT315.ORG”<br>fn:toUpperCase(“”)的返回值为空字符串</p>
+<p><strong>fn:trim</strong></p>
+<p>fn:trim函数删除一个字符串的首尾的空格，并返回删除空格后的结果字符串，它接收一个字符串类型的参数。需要注意的是，fn:trim函数不能删除字符串中间位置的空格。<br>例如，fn:trim(“   <a target="_blank" rel="noopener" href="http://www.it315.org/">www.it315.org</a>  “) 的返回值为字符串“<a target="_blank" rel="noopener" href="http://www.it/">www.it</a> 315.org”。</p>
+<p><strong>fn:length</strong></p>
+<p>fn:length函数返回一个集合或数组大小，或返回一个字符串中包含的字符的个数，返回值为int类型。fn:length函数接收一个参数，这个参数可以是&lt;c:forEach&gt;标签的items  </p>
+<p>属性支持的任何类型，包括任意类型的数组、java.util.Collection、java.util.Iterator、java.util.Enumeration、java.util.Map等类的实例对象和字符串。<br>如果fn:length函数的参数为null或者是元素个数为0的集合或数组对象，则函数返回0；如果参数是空字符串，则函数返回0。  </p>
+<p><strong>fn:split</strong></p>
+<p>fn:split函数以指定字符串作为分隔符，将一个字符串分割成字符串数组并返回这个字符串数组。<br>fn:split函数接收两个字符串类型的参数，第一个参数表示要分割的字符串，第二个参数表示作为分隔符的字符串。<br>例如，fn:split(“<a target="_blank" rel="noopener" href="http://www.it315.org&quot;/">www.it315.org&quot;</a>, “.”)[1]的返回值为字符串“it315”。  </p>
+<p><strong>fn:join</strong></p>
+<p>fn:join函数以一个字符串作为分隔符，将一个字符串数组中的所有元素合并为一个字符串并返回合并后的结果字符串。fn:join函数接收两个参数，第一个参数是要操作的字符串数组，第二个参数是作为分隔符的字符串。<br>如果fn:join函数的第二个参数是空字符串，则fn:join函数的返回值直接将元素连接起来。例如：<br>假设stringArray是保存在Web域中的一个属性，它表示一个值为{“www”,”it315”,”org”}的字符串数组，则fn:join(stringArray, “.”)返回字符串“<a target="_blank" rel="noopener" href="http://www.it315.org”/">www.it315.org”</a><br>fn:join(fn:split(“www,it315,org”, “,”), “.”) 的返回值为字符串“<a target="_blank" rel="noopener" href="http://www.it315.org”/">www.it315.org”</a></p>
+<p><strong>fn:indexOf</strong></p>
+<p>fn:indexOf函数返回指定字符串在一个字符串中第一次出现的索引值，返回值为int类型。fn:indexOf函数接收两个字符串类型的参数，如果第一个参数字符串中包含第二个参数字符串，那么，不管第二个参数字符串在第一个参数字符串中出现几次，fn:indexOf函数总是返回第一次出现的索引值；如果第一个参数中不包含第二个参数，则fn:indexOf函数返回-1。如果第二个参数为空字符串，则fn:indexOf函数总是返回0。例如：<br>fn:indexOf(“<a target="_blank" rel="noopener" href="http://www.it315.org&quot;,&quot;t3&quot;/">www.it315.org&quot;,&quot;t3&quot;</a>) 的返回值为5</p>
+<p><strong>fn:contains</strong></p>
+<p>fn:contains函数检测一个字符串中是否包含指定的字符串，返回值为布尔类型。fn:contains函数在比较两个字符串是否相等时是大小写敏感的。<br>fn:contains函数接收两个字符串类型的参数，如果第一个参数字符串中包含第二个参数字符串，则fn:contains函数返回true，否则返回false。如果第二个参数的值为空字符串，则fn:contains函数总是返回true。实际上，fn:contains(string, substring)等价于fn:indexOf(string, substring) != -1。<br>忽略大小的EL函数：fn:containsIgnoreCase   </p>
+<p><strong>fn:startsWith</strong></p>
+<p>fn:startsWith函数用于检测一个字符串是否是以指定字符串开始的，返回值为布尔类型。<br>fn:startsWith函数接收两个字符串类型的参数，如果第一个参数字符串以第二个参数字符串开始，则函数返回true，否则函数返回false。如果第二个参数为空字符串，则<br>fn:startsWith函数总是返回true。例如：<br>fn:startsWith(“<a target="_blank" rel="noopener" href="http://www.it315.org&quot;,&quot;it315&quot;)的返回值为false/">www.it315.org&quot;,&quot;it315&quot;)的返回值为false</a><br>与之对应的EL函数：fn:endsWith   </p>
+<p><strong>fn:replace</strong></p>
+<p>fn:replace函数将一个字符串中包含的指定子字符串替换为其它的指定字符串，并返回替换后的结果字符串。fn:replace方法接收三个字符串类型的参数，第一个参数表示要操作的源字符串，第二个参数表示源字符串中要被替换的子字符串，第三个参数表示要被替换成的字符串。例如：<br>fn:replace(“www it315 org”, “ “, “.”)的返回值为字符串“<a target="_blank" rel="noopener" href="http://www.it315.org”/">www.it315.org”</a></p>
+<p><strong>fn:substring</strong>  </p>
+<p>fn:substring函数用于截取一个字符串的子字符串并返回截取到的子字符串。fn:substring函数接收三个参数，第一个参数是用于指定要操作的源字符串，第二个参数是用于指定截取子字符串开始的索引值，第三个参数是用于指定截取子字符串结束的索引值，第二个参数和第三个参数都是int类型，其值都从0开始。例如：<br>fn:substring(“<a target="_blank" rel="noopener" href="http://www.it315.org&quot;/">www.it315.org&quot;</a>, 4, 9) 的返回值为字符串“it315”</p>
+<p><strong>fn:substringAfter</strong></p>
+<p>fn:substringAfter函数用于截取并返回一个字符串中的指定子字符串第一次出现之后的子字符串。fn:substringAfter函数接收两个字符串类型的参数，第一个参数表示要操作的源字符串，第二个参数表示指定的子字符串，例如：<br>fn:substringAfter(“<a target="_blank" rel="noopener" href="http://www.it315.org”/">www.it315.org”</a>, “.”)的返回值为字符串“it315.org”。<br>与之对应的EL函数为：fn:substringBefore   </p>
+<p>&lt;c:if test=”${fn:contains(str,subStr)}”&gt;  </p>
+<p>fn:contains函数检测一个字符串中是否包含指定的字符串，返回值为布尔类型。fn:contains函数在比较两个字符串是否相等时是大小写敏感的。<br>fn:contains函数接收两个字符串类型的参数，如果第一个参数字符串中包含第二个参数字符串，则fn:contains函数返回true，否则返回false。如果第二个参数的值为空字符串，则fn:contains函数总是返回true。实际上，fn:contains(string, substring)等价于fn:indexOf(string, substring) != -1。  </p>
+<p>忽略大小的EL函数：fn:containsIgnoreCase</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/03/15/2018-02-25-javaweb8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Javaweb学习08-过滤器&监听器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/03/10/2018-02-10-javaweb6/">
+                        <span class="hidden-mobile">Javaweb学习6-JSP标签</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

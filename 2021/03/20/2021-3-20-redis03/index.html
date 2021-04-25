@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>狂神Redis-03 五大数据类型 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="狂神Redis-03 五大数据类型">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-20 18:50" pubdate>
+        2021年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      91
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">狂神Redis-03 五大数据类型</h1>
+            
+            <div class="markdown-body">
+              <h2 id="三、五大数据类型"><a href="#三、五大数据类型" class="headerlink" title="三、五大数据类型"></a>三、五大数据类型</h2><p> Redis是一个开源（BSD许可），内存存储的数据结构服务器，可用作<strong>数据库</strong>，<strong>高速缓存</strong>和<strong>消息队列代理</strong>。它支持<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3508.html">字符串</a>、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3509.html">哈希表</a>、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3510.html">列表</a>、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3511.html">集合</a>、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3512.html">有序集合</a>，<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3508.html">位图</a>，<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3513.html">hyperloglogs</a>等数据类型。内置复制、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3516.html">Lua脚本</a>、LRU收回、<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3515.html">事务</a>以及不同级别磁盘持久化功能，同时通过Redis Sentinel提供高可用，通过Redis Cluster提供自动<a target="_blank" rel="noopener" href="https://www.redis.net.cn/tutorial/3524.html">分区</a>。</p>
+<h3 id="Redis-key"><a href="#Redis-key" class="headerlink" title="Redis-key"></a>Redis-key</h3><blockquote>
+<p>在redis中无论什么数据类型，在数据库中都是以key-value形式保存，通过进行对Redis-key的操作，来完成对数据库中数据的操作。</p>
+</blockquote>
+<p>下面学习的命令：</p>
+<ul>
+<li><code>exists key</code>：判断键是否存在</li>
+<li><code>del key</code>：删除键值对</li>
+<li><code>move key db</code>：将键值对移动到指定数据库</li>
+<li><code>expire key second</code>：设置键值对的过期时间</li>
+<li><code>type key</code>：查看value的数据类型</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; keys * <span class="hljs-comment"># 查看当前数据库所有key</span><br>(empty list or <span class="hljs-built_in">set</span>)<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> name qinjiang <span class="hljs-comment"># set key</span><br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> age 20<br>OK<br>127.0.0.1:6379&gt; keys *<br>1) <span class="hljs-string">&quot;age&quot;</span><br>2) <span class="hljs-string">&quot;name&quot;</span><br>127.0.0.1:6379&gt; move age 1 <span class="hljs-comment"># 将键值对移动到指定数据库</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; EXISTS age <span class="hljs-comment"># 判断键是否存在</span><br>(<span class="hljs-built_in">integer</span>) 0 <span class="hljs-comment"># 不存在</span><br>127.0.0.1:6379&gt; EXISTS name<br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 存在</span><br>127.0.0.1:6379&gt; SELECT 1<br>OK<br>127.0.0.1:6379[1]&gt; keys *<br>1) <span class="hljs-string">&quot;age&quot;</span><br>127.0.0.1:6379[1]&gt; del age <span class="hljs-comment"># 删除键值对</span><br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 删除个数</span><br><br><br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> age 20<br>OK<br>127.0.0.1:6379&gt; EXPIRE age 15 <span class="hljs-comment"># 设置键值对的过期时间</span><br><br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 设置成功 开始计数</span><br>127.0.0.1:6379&gt; ttl age <span class="hljs-comment"># 查看key的过期剩余时间</span><br>(<span class="hljs-built_in">integer</span>) 13<br>127.0.0.1:6379&gt; ttl age<br>(<span class="hljs-built_in">integer</span>) 11<br>127.0.0.1:6379&gt; ttl age<br>(<span class="hljs-built_in">integer</span>) 9<br>127.0.0.1:6379&gt; ttl age<br>(<span class="hljs-built_in">integer</span>) -2 <span class="hljs-comment"># -2 表示key过期，-1表示key未设置过期时间</span><br><br>127.0.0.1:6379&gt; get age <span class="hljs-comment"># 过期的key 会被自动delete</span><br>(nil)<br>127.0.0.1:6379&gt; keys *<br>1) <span class="hljs-string">&quot;name&quot;</span><br><br>127.0.0.1:6379&gt; <span class="hljs-built_in">type</span> name <span class="hljs-comment"># 查看value的数据类型</span><br>string<br></code></pre></td></tr></table></figure>
+
+<p>关于<code>TTL</code>命令</p>
+<p>Redis的key，通过TTL命令返回key的过期时间，一般来说有3种：</p>
+<ol>
+<li>当前key没有设置过期时间，所以会返回-1.</li>
+<li>当前key有设置过期时间，而且key已经过期，所以会返回-2.</li>
+<li>当前key有设置过期时间，且key还没有过期，故会返回key的正常剩余时间.</li>
+</ol>
+<p>关于重命名<code>RENAME</code>和<code>RENAMENX</code></p>
+<ul>
+<li><code>RENAME key newkey</code>修改 key 的名称</li>
+<li><code>RENAMENX key newkey</code>仅当 newkey 不存在时，将 key 改名为 newkey 。</li>
+</ul>
+<p>更多命令学习：<a target="_blank" rel="noopener" href="https://www.redis.net.cn/order/">https://www.redis.net.cn/order/</a></p>
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-wBVZtGVm-1597890996517)(狂神说 Redis.assets/image-20200813114228439.png)]</p>
+<h3 id="String-字符串"><a href="#String-字符串" class="headerlink" title="String(字符串)"></a>String(字符串)</h3><p>普通的set、get直接略过。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>APPEND key value</code></td>
+<td>向指定的key的value后追加字符串</td>
+<td>127.0.0.1:6379&gt; set msg hello OK 127.0.0.1:6379&gt; append msg “ world” (integer) 11 127.0.0.1:6379&gt; get msg “hello world”</td>
+</tr>
+<tr>
+<td><code>DECR/INCR key</code></td>
+<td>将指定key的value数值进行+1/-1(仅对于数字)</td>
+<td>127.0.0.1:6379&gt; set age 20 OK 127.0.0.1:6379&gt; incr age (integer) 21 127.0.0.1:6379&gt; decr age (integer) 20</td>
+</tr>
+<tr>
+<td><code>INCRBY/DECRBY key n</code></td>
+<td>按指定的步长对数值进行加减</td>
+<td>127.0.0.1:6379&gt; INCRBY age 5 (integer) 25 127.0.0.1:6379&gt; DECRBY age 10 (integer) 15</td>
+</tr>
+<tr>
+<td><code>INCRBYFLOAT key n</code></td>
+<td>为数值加上浮点型数值</td>
+<td>127.0.0.1:6379&gt; INCRBYFLOAT age 5.2 “20.2”</td>
+</tr>
+<tr>
+<td><code>STRLEN key</code></td>
+<td>获取key保存值的字符串长度</td>
+<td>127.0.0.1:6379&gt; get msg “hello world” 127.0.0.1:6379&gt; STRLEN msg (integer) 11</td>
+</tr>
+<tr>
+<td><code>GETRANGE key start end</code></td>
+<td>按起止位置获取字符串（闭区间，起止位置都取）</td>
+<td>127.0.0.1:6379&gt; get msg “hello world” 127.0.0.1:6379&gt; GETRANGE msg 3 9 “lo worl”</td>
+</tr>
+<tr>
+<td><code>SETRANGE key offset value</code></td>
+<td>用指定的value 替换key中 offset开始的值</td>
+<td>127.0.0.1:6379&gt; SETRANGE msg 2 hello (integer) 7 127.0.0.1:6379&gt; get msg “tehello”</td>
+</tr>
+<tr>
+<td><code>GETSET key value</code></td>
+<td>将给定 key 的值设为 value ，并返回 key 的旧值(old value)。</td>
+<td>127.0.0.1:6379&gt; GETSET msg test “hello world”</td>
+</tr>
+<tr>
+<td><code>SETNX key value</code></td>
+<td>仅当key不存在时进行set</td>
+<td>127.0.0.1:6379&gt; SETNX msg test (integer) 0 127.0.0.1:6379&gt; SETNX name sakura (integer) 1</td>
+</tr>
+<tr>
+<td><code>SETEX key seconds value</code></td>
+<td>set 键值对并设置过期时间</td>
+<td>127.0.0.1:6379&gt; setex name 10 root OK 127.0.0.1:6379&gt; get name (nil)</td>
+</tr>
+<tr>
+<td><code>MSET key1 value1 [key2 value2..]</code></td>
+<td>批量set键值对</td>
+<td>127.0.0.1:6379&gt; MSET k1 v1 k2 v2 k3 v3 OK</td>
+</tr>
+<tr>
+<td><code>MSETNX key1 value1 [key2 value2..]</code></td>
+<td>批量设置键值对，仅当参数中所有的key都不存在时执行</td>
+<td>127.0.0.1:6379&gt; MSETNX k1 v1 k4 v4 (integer) 0</td>
+</tr>
+<tr>
+<td><code>MGET key1 [key2..]</code></td>
+<td>批量获取多个key保存的值</td>
+<td>127.0.0.1:6379&gt; MGET k1 k2 k3 1) “v1” 2) “v2” 3) “v3”</td>
+</tr>
+<tr>
+<td><code>PSETEX key milliseconds value</code></td>
+<td>和 SETEX 命令相似，但它以毫秒为单位设置 key 的生存时间，</td>
+<td></td>
+</tr>
+<tr>
+<td><code>getset key value</code></td>
+<td>如果不存在值，则返回nil，如果存在值，获取原来的值，并设置新的值</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>String类似的使用场景：value除了是字符串还可以是数字，用途举例：</p>
+<ul>
+<li>计数器</li>
+<li>统计多单位的数量：uid:123666：follow 0</li>
+<li>粉丝数</li>
+<li>对象存储缓存</li>
+</ul>
+<h3 id="List-列表"><a href="#List-列表" class="headerlink" title="List(列表)"></a>List(列表)</h3><blockquote>
+<p>Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）</p>
+<p>一个列表最多可以包含 232 - 1 个元素 (4294967295, 每个列表超过40亿个元素)。</p>
+</blockquote>
+<p>首先我们列表，可以经过规则定义将其变为队列、栈、双端队列等</p>
+<p><img src="https://img-blog.csdnimg.cn/20200820104440398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RERERlbmdf,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" lazyload alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-VPvbIltc-1597890996518)(狂神说 Redis.assets/image-20200813114255459.png)]"></p>
+<p>正如图Redis中List是可以进行双端操作的，所以命令也就分为了LXXX和RLLL两类，有时候L也表示List例如LLEN</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LPUSH/RPUSH key value1[value2..]</code></td>
+<td>从左边/右边向列表中PUSH值(一个或者多个)。</td>
+</tr>
+<tr>
+<td><code>LRANGE key start end</code></td>
+<td>获取list 起止元素==（索引从左往右 递增）==</td>
+</tr>
+<tr>
+<td><code>LPUSHX/RPUSHX key value</code></td>
+<td>向已存在的列名中push值（一个或者多个）</td>
+</tr>
+<tr>
+<td>`LINSERT key BEFORE</td>
+<td>AFTER pivot value`</td>
+</tr>
+<tr>
+<td><code>LLEN key</code></td>
+<td>查看列表长度</td>
+</tr>
+<tr>
+<td><code>LINDEX key index</code></td>
+<td>通过索引获取列表元素</td>
+</tr>
+<tr>
+<td><code>LSET key index value</code></td>
+<td>通过索引为元素设值</td>
+</tr>
+<tr>
+<td><code>LPOP/RPOP key</code></td>
+<td>从最左边/最右边移除值 并返回</td>
+</tr>
+<tr>
+<td><code>RPOPLPUSH source destination</code></td>
+<td>将列表的尾部(右)最后一个值弹出，并返回，然后加到另一个列表的头部</td>
+</tr>
+<tr>
+<td><code>LTRIM key start end</code></td>
+<td>通过下标截取指定范围内的列表</td>
+</tr>
+<tr>
+<td><code>LREM key count value</code></td>
+<td>List中是允许value重复的 <code>count &gt; 0</code>：从头部开始搜索 然后删除指定的value 至多删除count个 <code>count &lt; 0</code>：从尾部开始搜索… <code>count = 0</code>：删除列表中所有的指定value。</td>
+</tr>
+<tr>
+<td><code>BLPOP/BRPOP key1[key2] timout</code></td>
+<td>移出并获取列表的第一个/最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</td>
+</tr>
+<tr>
+<td><code>BRPOPLPUSH source destination timeout</code></td>
+<td>和<code>RPOPLPUSH</code>功能相同，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><code class="hljs bash">---------------------------LPUSH---RPUSH---LRANGE--------------------------------<br><br>127.0.0.1:6379&gt; LPUSH mylist k1 <span class="hljs-comment"># LPUSH mylist=&gt;&#123;1&#125;</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; LPUSH mylist k2 <span class="hljs-comment"># LPUSH mylist=&gt;&#123;2,1&#125;</span><br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; RPUSH mylist k3 <span class="hljs-comment"># RPUSH mylist=&gt;&#123;2,1,3&#125;</span><br>(<span class="hljs-built_in">integer</span>) 3<br>127.0.0.1:6379&gt; get mylist <span class="hljs-comment"># 普通的get是无法获取list值的</span><br>(error) WRONGTYPE Operation against a key holding the wrong kind of value<br>127.0.0.1:6379&gt; LRANGE mylist 0 4 <span class="hljs-comment"># LRANGE 获取起止位置范围内的元素</span><br>1) <span class="hljs-string">&quot;k2&quot;</span><br>2) <span class="hljs-string">&quot;k1&quot;</span><br>3) <span class="hljs-string">&quot;k3&quot;</span><br>127.0.0.1:6379&gt; LRANGE mylist 0 2<br>1) <span class="hljs-string">&quot;k2&quot;</span><br>2) <span class="hljs-string">&quot;k1&quot;</span><br>3) <span class="hljs-string">&quot;k3&quot;</span><br>127.0.0.1:6379&gt; LRANGE mylist 0 1<br>1) <span class="hljs-string">&quot;k2&quot;</span><br>2) <span class="hljs-string">&quot;k1&quot;</span><br>127.0.0.1:6379&gt; LRANGE mylist 0 -1 <span class="hljs-comment"># 获取全部元素</span><br>1) <span class="hljs-string">&quot;k2&quot;</span><br>2) <span class="hljs-string">&quot;k1&quot;</span><br>3) <span class="hljs-string">&quot;k3&quot;</span><br><br>---------------------------LPUSHX---RPUSHX-----------------------------------<br><br>127.0.0.1:6379&gt; LPUSHX list v1 <span class="hljs-comment"># list不存在 LPUSHX失败</span><br>(<span class="hljs-built_in">integer</span>) 0<br>127.0.0.1:6379&gt; LPUSHX list v1 v2  <br>(<span class="hljs-built_in">integer</span>) 0<br>127.0.0.1:6379&gt; LPUSHX mylist k4 k5 <span class="hljs-comment"># 向mylist中 左边 PUSH k4 k5</span><br>(<span class="hljs-built_in">integer</span>) 5<br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k5&quot;</span><br>2) <span class="hljs-string">&quot;k4&quot;</span><br>3) <span class="hljs-string">&quot;k2&quot;</span><br>4) <span class="hljs-string">&quot;k1&quot;</span><br>5) <span class="hljs-string">&quot;k3&quot;</span><br><br>---------------------------LINSERT--LLEN--LINDEX--LSET----------------------------<br><br>127.0.0.1:6379&gt; LINSERT mylist after k2 ins_key1 <span class="hljs-comment"># 在k2元素后 插入ins_key1</span><br>(<span class="hljs-built_in">integer</span>) 6<br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k5&quot;</span><br>2) <span class="hljs-string">&quot;k4&quot;</span><br>3) <span class="hljs-string">&quot;k2&quot;</span><br>4) <span class="hljs-string">&quot;ins_key1&quot;</span><br>5) <span class="hljs-string">&quot;k1&quot;</span><br>6) <span class="hljs-string">&quot;k3&quot;</span><br>127.0.0.1:6379&gt; LLEN mylist <span class="hljs-comment"># 查看mylist的长度</span><br>(<span class="hljs-built_in">integer</span>) 6<br>127.0.0.1:6379&gt; LINDEX mylist 3 <span class="hljs-comment"># 获取下标为3的元素</span><br><span class="hljs-string">&quot;ins_key1&quot;</span><br>127.0.0.1:6379&gt; LINDEX mylist 0<br><span class="hljs-string">&quot;k5&quot;</span><br>127.0.0.1:6379&gt; LSET mylist 3 k6 <span class="hljs-comment"># 将下标3的元素 set值为k6</span><br>OK<br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k5&quot;</span><br>2) <span class="hljs-string">&quot;k4&quot;</span><br>3) <span class="hljs-string">&quot;k2&quot;</span><br>4) <span class="hljs-string">&quot;k6&quot;</span><br>5) <span class="hljs-string">&quot;k1&quot;</span><br>6) <span class="hljs-string">&quot;k3&quot;</span><br><br>---------------------------LPOP--RPOP--------------------------<br><br>127.0.0.1:6379&gt; LPOP mylist <span class="hljs-comment"># 左侧(头部)弹出</span><br><span class="hljs-string">&quot;k5&quot;</span><br>127.0.0.1:6379&gt; RPOP mylist <span class="hljs-comment"># 右侧(尾部)弹出</span><br><span class="hljs-string">&quot;k3&quot;</span><br><br>---------------------------RPOPLPUSH--------------------------<br><br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k4&quot;</span><br>2) <span class="hljs-string">&quot;k2&quot;</span><br>3) <span class="hljs-string">&quot;k6&quot;</span><br>4) <span class="hljs-string">&quot;k1&quot;</span><br>127.0.0.1:6379&gt; RPOPLPUSH mylist newlist <span class="hljs-comment"># 将mylist的最后一个值(k1)弹出，加入到newlist的头部</span><br><span class="hljs-string">&quot;k1&quot;</span><br>127.0.0.1:6379&gt; LRANGE newlist 0 -1<br>1) <span class="hljs-string">&quot;k1&quot;</span><br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k4&quot;</span><br>2) <span class="hljs-string">&quot;k2&quot;</span><br>3) <span class="hljs-string">&quot;k6&quot;</span><br><br>---------------------------LTRIM--------------------------<br><br>127.0.0.1:6379&gt; LTRIM mylist 0 1 <span class="hljs-comment"># 截取mylist中的 0~1部分</span><br>OK<br>127.0.0.1:6379&gt; LRANGE mylist 0 -1<br>1) <span class="hljs-string">&quot;k4&quot;</span><br>2) <span class="hljs-string">&quot;k2&quot;</span><br><br><span class="hljs-comment"># 初始 mylist: k2,k2,k2,k2,k2,k2,k4,k2,k2,k2,k2</span><br>---------------------------LREM--------------------------<br><br>127.0.0.1:6379&gt; LREM mylist 3 k2 <span class="hljs-comment"># 从头部开始搜索 至多删除3个 k2</span><br>(<span class="hljs-built_in">integer</span>) 3<br><span class="hljs-comment"># 删除后：mylist: k2,k2,k2,k4,k2,k2,k2,k2</span><br><br>127.0.0.1:6379&gt; LREM mylist -2 k2 <span class="hljs-comment">#从尾部开始搜索 至多删除2个 k2</span><br>(<span class="hljs-built_in">integer</span>) 2<br><span class="hljs-comment"># 删除后：mylist: k2,k2,k2,k4,k2,k2</span><br><br><br>---------------------------BLPOP--BRPOP--------------------------<br><br>mylist: k2,k2,k2,k4,k2,k2<br>newlist: k1<br><br>127.0.0.1:6379&gt; BLPOP newlist mylist 30 <span class="hljs-comment"># 从newlist中弹出第一个值，mylist作为候选</span><br>1) <span class="hljs-string">&quot;newlist&quot;</span> <span class="hljs-comment"># 弹出</span><br>2) <span class="hljs-string">&quot;k1&quot;</span><br>127.0.0.1:6379&gt; BLPOP newlist mylist 30<br>1) <span class="hljs-string">&quot;mylist&quot;</span> <span class="hljs-comment"># 由于newlist空了 从mylist中弹出</span><br>2) <span class="hljs-string">&quot;k2&quot;</span><br>127.0.0.1:6379&gt; BLPOP newlist 30<br>(30.10s) <span class="hljs-comment"># 超时了</span><br><br>127.0.0.1:6379&gt; BLPOP newlist 30 <span class="hljs-comment"># 我们连接另一个客户端向newlist中push了test, 阻塞被解决。</span><br>1) <span class="hljs-string">&quot;newlist&quot;</span><br>2) <span class="hljs-string">&quot;test&quot;</span><br>(12.54s)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>小结</p>
+</blockquote>
+<ul>
+<li>list实际上是一个链表，before Node after , left, right 都可以插入值</li>
+<li><strong>如果key不存在，则创建新的链表</strong></li>
+<li>如果key存在，新增内容</li>
+<li>如果移除了所有值，空链表，也代表不存在</li>
+<li>在两边插入或者改动值，效率最高！修改中间元素，效率相对较低</li>
+</ul>
+<p><strong>应用：</strong></p>
+<p><strong>消息排队！消息队列（Lpush Rpop）,栈（Lpush Lpop）</strong></p>
+<h3 id="Set-集合"><a href="#Set-集合" class="headerlink" title="Set(集合)"></a>Set(集合)</h3><blockquote>
+<p>Redis的Set是<strong>string类型</strong>的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。</p>
+<p>Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。</p>
+<p>集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SADD key member1[member2..]</code></td>
+<td>向集合中无序增加一个/多个成员</td>
+</tr>
+<tr>
+<td><code>SCARD key</code></td>
+<td>获取集合的成员数</td>
+</tr>
+<tr>
+<td><code>SMEMBERS key</code></td>
+<td>返回集合中所有的成员</td>
+</tr>
+<tr>
+<td><code>SISMEMBER key member</code></td>
+<td>查询member元素是否是集合的成员,结果是无序的</td>
+</tr>
+<tr>
+<td><code>SRANDMEMBER key [count]</code></td>
+<td>随机返回集合中count个成员，count缺省值为1</td>
+</tr>
+<tr>
+<td><code>SPOP key [count]</code></td>
+<td>随机移除并返回集合中count个成员，count缺省值为1</td>
+</tr>
+<tr>
+<td><code>SMOVE source destination member</code></td>
+<td>将source集合的成员member移动到destination集合</td>
+</tr>
+<tr>
+<td><code>SREM key member1[member2..]</code></td>
+<td>移除集合中一个/多个成员</td>
+</tr>
+<tr>
+<td><code>SDIFF key1[key2..]</code></td>
+<td>返回所有集合的差集 key1- key2 - …</td>
+</tr>
+<tr>
+<td><code>SDIFFSTORE destination key1[key2..]</code></td>
+<td>在SDIFF的基础上，将结果保存到集合中==(覆盖)==。不能保存到其他类型key噢！</td>
+</tr>
+<tr>
+<td><code>SINTER key1 [key2..]</code></td>
+<td>返回所有集合的交集</td>
+</tr>
+<tr>
+<td><code>SINTERSTORE destination key1[key2..]</code></td>
+<td>在SINTER的基础上，存储结果到集合中。覆盖</td>
+</tr>
+<tr>
+<td><code>SUNION key1 [key2..]</code></td>
+<td>返回所有集合的并集</td>
+</tr>
+<tr>
+<td><code>SUNIONSTORE destination key1 [key2..]</code></td>
+<td>在SUNION的基础上，存储结果到及和张。覆盖</td>
+</tr>
+<tr>
+<td><code>SSCAN KEY [MATCH pattern] [COUNT count]</code></td>
+<td>在大量数据环境下，使用此命令遍历集合中元素，每次遍历部分</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs bash">---------------SADD--SCARD--SMEMBERS--SISMEMBER--------------------<br><br>127.0.0.1:6379&gt; SADD myset m1 m2 m3 m4 <span class="hljs-comment"># 向myset中增加成员 m1~m4</span><br>(<span class="hljs-built_in">integer</span>) 4<br>127.0.0.1:6379&gt; SCARD myset <span class="hljs-comment"># 获取集合的成员数目</span><br>(<span class="hljs-built_in">integer</span>) 4<br>127.0.0.1:6379&gt; smembers myset <span class="hljs-comment"># 获取集合中所有成员</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br>4) <span class="hljs-string">&quot;m1&quot;</span><br>127.0.0.1:6379&gt; SISMEMBER myset m5 <span class="hljs-comment"># 查询m5是否是myset的成员</span><br>(<span class="hljs-built_in">integer</span>) 0 <span class="hljs-comment"># 不是，返回0</span><br>127.0.0.1:6379&gt; SISMEMBER myset m2<br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 是，返回1</span><br>127.0.0.1:6379&gt; SISMEMBER myset m3<br>(<span class="hljs-built_in">integer</span>) 1<br><br>---------------------SRANDMEMBER--SPOP----------------------------------<br><br>127.0.0.1:6379&gt; SRANDMEMBER myset 3 <span class="hljs-comment"># 随机返回3个成员</span><br>1) <span class="hljs-string">&quot;m2&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m4&quot;</span><br>127.0.0.1:6379&gt; SRANDMEMBER myset <span class="hljs-comment"># 随机返回1个成员</span><br><span class="hljs-string">&quot;m3&quot;</span><br>127.0.0.1:6379&gt; SPOP myset 2 <span class="hljs-comment"># 随机移除并返回2个成员</span><br>1) <span class="hljs-string">&quot;m1&quot;</span><br>2) <span class="hljs-string">&quot;m4&quot;</span><br><span class="hljs-comment"># 将set还原到&#123;m1,m2,m3,m4&#125;</span><br><br>---------------------SMOVE--SREM----------------------------------------<br><br>127.0.0.1:6379&gt; SMOVE myset newset m3 <span class="hljs-comment"># 将myset中m3成员移动到newset集合</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; SMEMBERS myset<br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m2&quot;</span><br>3) <span class="hljs-string">&quot;m1&quot;</span><br>127.0.0.1:6379&gt; SMEMBERS newset<br>1) <span class="hljs-string">&quot;m3&quot;</span><br>127.0.0.1:6379&gt; SREM newset m3 <span class="hljs-comment"># 从newset中移除m3元素</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; SMEMBERS newset<br>(empty list or <span class="hljs-built_in">set</span>)<br><br><span class="hljs-comment"># 下面开始是多集合操作,多集合操作中若只有一个参数默认和自身进行运算</span><br><span class="hljs-comment"># setx=&gt;&#123;m1,m2,m4,m6&#125;, sety=&gt;&#123;m2,m5,m6&#125;, setz=&gt;&#123;m1,m3,m6&#125;</span><br><br>-----------------------------SDIFF------------------------------------<br><br>127.0.0.1:6379&gt; SDIFF setx sety setz <span class="hljs-comment"># 等价于setx-sety-setz</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>127.0.0.1:6379&gt; SDIFF setx sety <span class="hljs-comment"># setx - sety</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m1&quot;</span><br>127.0.0.1:6379&gt; SDIFF sety setx <span class="hljs-comment"># sety - setx</span><br>1) <span class="hljs-string">&quot;m5&quot;</span><br><br><br>-------------------------SINTER---------------------------------------<br><span class="hljs-comment"># 共同关注（交集）</span><br><br>127.0.0.1:6379&gt; SINTER setx sety setz <span class="hljs-comment"># 求 setx、sety、setx的交集</span><br>1) <span class="hljs-string">&quot;m6&quot;</span><br>127.0.0.1:6379&gt; SINTER setx sety <span class="hljs-comment"># 求setx sety的交集</span><br>1) <span class="hljs-string">&quot;m2&quot;</span><br>2) <span class="hljs-string">&quot;m6&quot;</span><br><br>-------------------------SUNION---------------------------------------<br><br>127.0.0.1:6379&gt; SUNION setx sety setz <span class="hljs-comment"># setx sety setz的并集</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m6&quot;</span><br>3) <span class="hljs-string">&quot;m3&quot;</span><br>4) <span class="hljs-string">&quot;m2&quot;</span><br>5) <span class="hljs-string">&quot;m1&quot;</span><br>6) <span class="hljs-string">&quot;m5&quot;</span><br>127.0.0.1:6379&gt; SUNION setx sety <span class="hljs-comment"># setx sety 并集</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m6&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br>4) <span class="hljs-string">&quot;m1&quot;</span><br>5) <span class="hljs-string">&quot;m5&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Hash（哈希）"><a href="#Hash（哈希）" class="headerlink" title="Hash（哈希）"></a>Hash（哈希）</h3><blockquote>
+<p>Redis hash 是一个string类型的field和value的映射表，hash特别适合用于存储对象。</p>
+<p>Set就是一种简化的Hash,只变动key,而value使用默认值填充。可以将一个Hash表作为一个对象进行存储，表中存放对象的信息。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HSET key field value</code></td>
+<td>将哈希表 key 中的字段 field 的值设为 value 。重复设置同一个field会覆盖,返回0</td>
+</tr>
+<tr>
+<td><code>HMSET key field1 value1 [field2 value2..]</code></td>
+<td>同时将多个 field-value (域-值)对设置到哈希表 key 中。</td>
+</tr>
+<tr>
+<td><code>HSETNX key field value</code></td>
+<td>只有在字段 field 不存在时，设置哈希表字段的值。</td>
+</tr>
+<tr>
+<td><code>HEXISTS key field</code></td>
+<td>查看哈希表 key 中，指定的字段是否存在。</td>
+</tr>
+<tr>
+<td><code>HGET key field value</code></td>
+<td>获取存储在哈希表中指定字段的值</td>
+</tr>
+<tr>
+<td><code>HMGET key field1 [field2..]</code></td>
+<td>获取所有给定字段的值</td>
+</tr>
+<tr>
+<td><code>HGETALL key</code></td>
+<td>获取在哈希表key 的所有字段和值</td>
+</tr>
+<tr>
+<td><code>HKEYS key</code></td>
+<td>获取哈希表key中所有的字段</td>
+</tr>
+<tr>
+<td><code>HLEN key</code></td>
+<td>获取哈希表中字段的数量</td>
+</tr>
+<tr>
+<td><code>HVALS key</code></td>
+<td>获取哈希表中所有值</td>
+</tr>
+<tr>
+<td><code>HDEL key field1 [field2..]</code></td>
+<td>删除哈希表key中一个/多个field字段</td>
+</tr>
+<tr>
+<td><code>HINCRBY key field n</code></td>
+<td>为哈希表 key 中的指定字段的整数值加上增量n，并返回增量后结果 一样只适用于整数型字段</td>
+</tr>
+<tr>
+<td><code>HINCRBYFLOAT key field n</code></td>
+<td>为哈希表 key 中的指定字段的浮点数值加上增量 n。</td>
+</tr>
+<tr>
+<td><code>HSCAN key cursor [MATCH pattern] [COUNT count]</code></td>
+<td>迭代哈希表中的键值对。</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs bash">------------------------HSET--HMSET--HSETNX----------------<br>127.0.0.1:6379&gt; HSET studentx name sakura <span class="hljs-comment"># 将studentx哈希表作为一个对象，设置name为sakura</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; HSET studentx name gyc <span class="hljs-comment"># 重复设置field进行覆盖，并返回0</span><br>(<span class="hljs-built_in">integer</span>) 0<br>127.0.0.1:6379&gt; HSET studentx age 20 <span class="hljs-comment"># 设置studentx的age为20</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; HMSET studentx sex 1 tel 15623667886 <span class="hljs-comment"># 设置sex为1，tel为15623667886</span><br>OK<br>127.0.0.1:6379&gt; HSETNX studentx name gyc <span class="hljs-comment"># HSETNX 设置已存在的field</span><br>(<span class="hljs-built_in">integer</span>) 0 <span class="hljs-comment"># 失败</span><br>127.0.0.1:6379&gt; HSETNX studentx email 12345@qq.com<br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 成功</span><br><br>----------------------HEXISTS--------------------------------<br>127.0.0.1:6379&gt; HEXISTS studentx name <span class="hljs-comment"># name字段在studentx中是否存在</span><br>(<span class="hljs-built_in">integer</span>) 1 <span class="hljs-comment"># 存在</span><br>127.0.0.1:6379&gt; HEXISTS studentx addr<br>(<span class="hljs-built_in">integer</span>) 0 <span class="hljs-comment"># 不存在</span><br><br>-------------------HGET--HMGET--HGETALL-----------<br>127.0.0.1:6379&gt; HGET studentx name <span class="hljs-comment"># 获取studentx中name字段的value</span><br><span class="hljs-string">&quot;gyc&quot;</span><br>127.0.0.1:6379&gt; HMGET studentx name age tel <span class="hljs-comment"># 获取studentx中name、age、tel字段的value</span><br>1) <span class="hljs-string">&quot;gyc&quot;</span><br>2) <span class="hljs-string">&quot;20&quot;</span><br>3) <span class="hljs-string">&quot;15623667886&quot;</span><br>127.0.0.1:6379&gt; HGETALL studentx <span class="hljs-comment"># 获取studentx中所有的field及其value</span><br> 1) <span class="hljs-string">&quot;name&quot;</span><br> 2) <span class="hljs-string">&quot;gyc&quot;</span><br> 3) <span class="hljs-string">&quot;age&quot;</span><br> 4) <span class="hljs-string">&quot;20&quot;</span><br> 5) <span class="hljs-string">&quot;sex&quot;</span><br> 6) <span class="hljs-string">&quot;1&quot;</span><br> 7) <span class="hljs-string">&quot;tel&quot;</span><br> 8) <span class="hljs-string">&quot;15623667886&quot;</span><br> 9) <span class="hljs-string">&quot;email&quot;</span><br>10) <span class="hljs-string">&quot;12345@qq.com&quot;</span><br><br><br>--------------------HKEYS--HLEN--HVALS--------------<br>127.0.0.1:6379&gt; HKEYS studentx <span class="hljs-comment"># 查看studentx中所有的field</span><br>1) <span class="hljs-string">&quot;name&quot;</span><br>2) <span class="hljs-string">&quot;age&quot;</span><br>3) <span class="hljs-string">&quot;sex&quot;</span><br>4) <span class="hljs-string">&quot;tel&quot;</span><br>5) <span class="hljs-string">&quot;email&quot;</span><br>127.0.0.1:6379&gt; HLEN studentx <span class="hljs-comment"># 查看studentx中的字段数量</span><br>(<span class="hljs-built_in">integer</span>) 5<br>127.0.0.1:6379&gt; HVALS studentx <span class="hljs-comment"># 查看studentx中所有的value</span><br>1) <span class="hljs-string">&quot;gyc&quot;</span><br>2) <span class="hljs-string">&quot;20&quot;</span><br>3) <span class="hljs-string">&quot;1&quot;</span><br>4) <span class="hljs-string">&quot;15623667886&quot;</span><br>5) <span class="hljs-string">&quot;12345@qq.com&quot;</span><br><br>-------------------------HDEL--------------------------<br>127.0.0.1:6379&gt; HDEL studentx sex tel <span class="hljs-comment"># 删除studentx 中的sex、tel字段</span><br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; HKEYS studentx<br>1) <span class="hljs-string">&quot;name&quot;</span><br>2) <span class="hljs-string">&quot;age&quot;</span><br>3) <span class="hljs-string">&quot;email&quot;</span><br><br>-------------HINCRBY--HINCRBYFLOAT------------------------<br>127.0.0.1:6379&gt; HINCRBY studentx age 1 <span class="hljs-comment"># studentx的age字段数值+1</span><br>(<span class="hljs-built_in">integer</span>) 21<br>127.0.0.1:6379&gt; HINCRBY studentx name 1 <span class="hljs-comment"># 非整数字型字段不可用</span><br>(error) ERR <span class="hljs-built_in">hash</span> value is not an <span class="hljs-built_in">integer</span><br>127.0.0.1:6379&gt; HINCRBYFLOAT studentx weight 0.6 <span class="hljs-comment"># weight字段增加0.6</span><br><span class="hljs-string">&quot;90.8&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p> Hash变更的数据user name age，尤其是用户信息之类的，经常变动的信息！<strong>Hash更适合于对象的存储，Sring更加适合字符串存储！</strong></p>
+<h3 id="Zset（有序集合）"><a href="#Zset（有序集合）" class="headerlink" title="Zset（有序集合）"></a>Zset（有序集合）</h3><blockquote>
+<p>不同的是每个元素都会关联一个double类型的分数（score）。redis正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<p>score相同：按字典顺序排序</p>
+<p>有序集合的成员是唯一的,但分数(score)却可以重复。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ZADD key score member1 [score2 member2]</code></td>
+<td>向有序集合添加一个或多个成员，或者更新已存在成员的分数</td>
+</tr>
+<tr>
+<td><code>ZCARD key</code></td>
+<td>获取有序集合的成员数</td>
+</tr>
+<tr>
+<td><code>ZCOUNT key min max</code></td>
+<td>计算在有序集合中指定区间score的成员数</td>
+</tr>
+<tr>
+<td><code>ZINCRBY key n member</code></td>
+<td>有序集合中对指定成员的分数加上增量 n</td>
+</tr>
+<tr>
+<td><code>ZSCORE key member</code></td>
+<td>返回有序集中，成员的分数值</td>
+</tr>
+<tr>
+<td><code>ZRANK key member</code></td>
+<td>返回有序集合中指定成员的索引</td>
+</tr>
+<tr>
+<td><code>ZRANGE key start end</code></td>
+<td>通过索引区间返回有序集合成指定区间内的成员</td>
+</tr>
+<tr>
+<td><code>ZRANGEBYLEX key min max</code></td>
+<td>通过字典区间返回有序集合的成员</td>
+</tr>
+<tr>
+<td><code>ZRANGEBYSCORE key min max</code></td>
+<td>通过分数返回有序集合指定区间内的成员==-inf 和 +inf分别表示最小最大值，只支持开区间()==</td>
+</tr>
+<tr>
+<td><code>ZLEXCOUNT key min max</code></td>
+<td>在有序集合中计算指定字典区间内成员数量</td>
+</tr>
+<tr>
+<td><code>ZREM key member1 [member2..]</code></td>
+<td>移除有序集合中一个/多个成员</td>
+</tr>
+<tr>
+<td><code>ZREMRANGEBYLEX key min max</code></td>
+<td>移除有序集合中给定的字典区间的所有成员</td>
+</tr>
+<tr>
+<td><code>ZREMRANGEBYRANK key start stop</code></td>
+<td>移除有序集合中给定的排名区间的所有成员</td>
+</tr>
+<tr>
+<td><code>ZREMRANGEBYSCORE key min max</code></td>
+<td>移除有序集合中给定的分数区间的所有成员</td>
+</tr>
+<tr>
+<td><code>ZREVRANGE key start end</code></td>
+<td>返回有序集中指定区间内的成员，通过索引，分数从高到底</td>
+</tr>
+<tr>
+<td><code>ZREVRANGEBYSCORRE key max min</code></td>
+<td>返回有序集中指定分数区间内的成员，分数从高到低排序</td>
+</tr>
+<tr>
+<td><code>ZREVRANGEBYLEX key max min</code></td>
+<td>返回有序集中指定字典区间内的成员，按字典顺序倒序</td>
+</tr>
+<tr>
+<td><code>ZREVRANK key member</code></td>
+<td>返回有序集合中指定成员的排名，有序集成员按分数值递减(从大到小)排序</td>
+</tr>
+<tr>
+<td><code>ZINTERSTORE destination numkeys key1 [key2 ..]</code></td>
+<td>计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中，numkeys：表示参与运算的集合数，将score相加作为结果的score</td>
+</tr>
+<tr>
+<td><code>ZUNIONSTORE destination numkeys key1 [key2..]</code></td>
+<td>计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中</td>
+</tr>
+<tr>
+<td><code>ZSCAN key cursor [MATCH pattern\] [COUNT count]</code></td>
+<td>迭代有序集合中的元素（包括元素成员和元素分值）</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><code class="hljs bash">-------------------ZADD--ZCARD--ZCOUNT--------------<br>127.0.0.1:6379&gt; ZADD myzset 1 m1 2 m2 3 m3 <span class="hljs-comment"># 向有序集合myzset中添加成员m1 score=1 以及成员m2 score=2..</span><br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; ZCARD myzset <span class="hljs-comment"># 获取有序集合的成员数</span><br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; ZCOUNT myzset 0 1 <span class="hljs-comment"># 获取score在 [0,1]区间的成员数量</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; ZCOUNT myzset 0 2<br>(<span class="hljs-built_in">integer</span>) 2<br><br>----------------ZINCRBY--ZSCORE--------------------------<br>127.0.0.1:6379&gt; ZINCRBY myzset 5 m2 <span class="hljs-comment"># 将成员m2的score +5</span><br><span class="hljs-string">&quot;7&quot;</span><br>127.0.0.1:6379&gt; ZSCORE myzset m1 <span class="hljs-comment"># 获取成员m1的score</span><br><span class="hljs-string">&quot;1&quot;</span><br>127.0.0.1:6379&gt; ZSCORE myzset m2<br><span class="hljs-string">&quot;7&quot;</span><br><br>--------------ZRANK--ZRANGE-----------------------------------<br>127.0.0.1:6379&gt; ZRANK myzset m1 <span class="hljs-comment"># 获取成员m1的索引，索引按照score排序，score相同索引值按字典顺序顺序增加</span><br>(<span class="hljs-built_in">integer</span>) 0<br>127.0.0.1:6379&gt; ZRANK myzset m2<br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; ZRANGE myzset 0 1 <span class="hljs-comment"># 获取索引在 0~1的成员</span><br>1) <span class="hljs-string">&quot;m1&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>127.0.0.1:6379&gt; ZRANGE myzset 0 -1 <span class="hljs-comment"># 获取全部成员</span><br>1) <span class="hljs-string">&quot;m1&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br><br><span class="hljs-comment">#testset=&gt;&#123;abc,add,amaze,apple,back,java,redis&#125; score均为0</span><br>------------------ZRANGEBYLEX---------------------------------<br>127.0.0.1:6379&gt; ZRANGEBYLEX testset - + <span class="hljs-comment"># 返回所有成员</span><br>1) <span class="hljs-string">&quot;abc&quot;</span><br>2) <span class="hljs-string">&quot;add&quot;</span><br>3) <span class="hljs-string">&quot;amaze&quot;</span><br>4) <span class="hljs-string">&quot;apple&quot;</span><br>5) <span class="hljs-string">&quot;back&quot;</span><br>6) <span class="hljs-string">&quot;java&quot;</span><br>7) <span class="hljs-string">&quot;redis&quot;</span><br>127.0.0.1:6379&gt; ZRANGEBYLEX testset - + LIMIT 0 3 <span class="hljs-comment"># 分页 按索引显示查询结果的 0,1,2条记录</span><br>1) <span class="hljs-string">&quot;abc&quot;</span><br>2) <span class="hljs-string">&quot;add&quot;</span><br>3) <span class="hljs-string">&quot;amaze&quot;</span><br>127.0.0.1:6379&gt; ZRANGEBYLEX testset - + LIMIT 3 3 <span class="hljs-comment"># 显示 3,4,5条记录</span><br>1) <span class="hljs-string">&quot;apple&quot;</span><br>2) <span class="hljs-string">&quot;back&quot;</span><br>3) <span class="hljs-string">&quot;java&quot;</span><br>127.0.0.1:6379&gt; ZRANGEBYLEX testset (- [apple <span class="hljs-comment"># 显示 (-,apple] 区间内的成员</span><br>1) <span class="hljs-string">&quot;abc&quot;</span><br>2) <span class="hljs-string">&quot;add&quot;</span><br>3) <span class="hljs-string">&quot;amaze&quot;</span><br>4) <span class="hljs-string">&quot;apple&quot;</span><br>127.0.0.1:6379&gt; ZRANGEBYLEX testset [apple [java <span class="hljs-comment"># 显示 [apple,java]字典区间的成员</span><br>1) <span class="hljs-string">&quot;apple&quot;</span><br>2) <span class="hljs-string">&quot;back&quot;</span><br>3) <span class="hljs-string">&quot;java&quot;</span><br><br>-----------------------ZRANGEBYSCORE---------------------<br>127.0.0.1:6379&gt; ZRANGEBYSCORE myzset 1 10 <span class="hljs-comment"># 返回score在 [1,10]之间的的成员</span><br>1) <span class="hljs-string">&quot;m1&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br>127.0.0.1:6379&gt; ZRANGEBYSCORE myzset 1 5<br>1) <span class="hljs-string">&quot;m1&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br><br>--------------------ZLEXCOUNT-----------------------------<br>127.0.0.1:6379&gt; ZLEXCOUNT testset - +<br>(<span class="hljs-built_in">integer</span>) 7<br>127.0.0.1:6379&gt; ZLEXCOUNT testset [apple [java<br>(<span class="hljs-built_in">integer</span>) 3<br><br>------------------ZREM--ZREMRANGEBYLEX--ZREMRANGBYRANK--ZREMRANGEBYSCORE--------------------------------<br>127.0.0.1:6379&gt; ZREM testset abc <span class="hljs-comment"># 移除成员abc</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; ZREMRANGEBYLEX testset [apple [java <span class="hljs-comment"># 移除字典区间[apple,java]中的所有成员</span><br>(<span class="hljs-built_in">integer</span>) 3<br>127.0.0.1:6379&gt; ZREMRANGEBYRANK testset 0 1 <span class="hljs-comment"># 移除排名0~1的所有成员</span><br>(<span class="hljs-built_in">integer</span>) 2<br>127.0.0.1:6379&gt; ZREMRANGEBYSCORE myzset 0 3 <span class="hljs-comment"># 移除score在 [0,3]的成员</span><br>(<span class="hljs-built_in">integer</span>) 2<br><br><br><span class="hljs-comment"># testset=&gt; &#123;abc,add,apple,amaze,back,java,redis&#125; score均为0</span><br><span class="hljs-comment"># myzset=&gt; &#123;(m1,1),(m2,2),(m3,3),(m4,4),(m7,7),(m9,9)&#125;</span><br>----------------ZREVRANGE--ZREVRANGEBYSCORE--ZREVRANGEBYLEX-----------<br>127.0.0.1:6379&gt; ZREVRANGE myzset 0 3 <span class="hljs-comment"># 按score递减排序，然后按索引，返回结果的 0~3</span><br>1) <span class="hljs-string">&quot;m9&quot;</span><br>2) <span class="hljs-string">&quot;m7&quot;</span><br>3) <span class="hljs-string">&quot;m4&quot;</span><br>4) <span class="hljs-string">&quot;m3&quot;</span><br>127.0.0.1:6379&gt; ZREVRANGE myzset 2 4 <span class="hljs-comment"># 返回排序结果的 索引的2~4</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br>127.0.0.1:6379&gt; ZREVRANGEBYSCORE myzset 6 2 <span class="hljs-comment"># 按score递减顺序 返回集合中分数在[2,6]之间的成员</span><br>1) <span class="hljs-string">&quot;m4&quot;</span><br>2) <span class="hljs-string">&quot;m3&quot;</span><br>3) <span class="hljs-string">&quot;m2&quot;</span><br>127.0.0.1:6379&gt; ZREVRANGEBYLEX testset [java (add <span class="hljs-comment"># 按字典倒序 返回集合中(add,java]字典区间的成员</span><br>1) <span class="hljs-string">&quot;java&quot;</span><br>2) <span class="hljs-string">&quot;back&quot;</span><br>3) <span class="hljs-string">&quot;apple&quot;</span><br>4) <span class="hljs-string">&quot;amaze&quot;</span><br><br>-------------------------ZREVRANK------------------------------<br>127.0.0.1:6379&gt; ZREVRANK myzset m7 <span class="hljs-comment"># 按score递减顺序，返回成员m7索引</span><br>(<span class="hljs-built_in">integer</span>) 1<br>127.0.0.1:6379&gt; ZREVRANK myzset m2<br>(<span class="hljs-built_in">integer</span>) 4<br><br><br><span class="hljs-comment"># mathscore=&gt;&#123;(xm,90),(xh,95),(xg,87)&#125; 小明、小红、小刚的数学成绩</span><br><span class="hljs-comment"># enscore=&gt;&#123;(xm,70),(xh,93),(xg,90)&#125; 小明、小红、小刚的英语成绩</span><br>-------------------ZINTERSTORE--ZUNIONSTORE-----------------------------------<br>127.0.0.1:6379&gt; ZINTERSTORE sumscore 2 mathscore enscore <span class="hljs-comment"># 将mathscore enscore进行合并 结果存放到sumscore</span><br>(<span class="hljs-built_in">integer</span>) 3<br>127.0.0.1:6379&gt; ZRANGE sumscore 0 -1 withscores <span class="hljs-comment"># 合并后的score是之前集合中所有score的和</span><br>1) <span class="hljs-string">&quot;xm&quot;</span><br>2) <span class="hljs-string">&quot;160&quot;</span><br>3) <span class="hljs-string">&quot;xg&quot;</span><br>4) <span class="hljs-string">&quot;177&quot;</span><br>5) <span class="hljs-string">&quot;xh&quot;</span><br>6) <span class="hljs-string">&quot;188&quot;</span><br><br>127.0.0.1:6379&gt; ZUNIONSTORE lowestscore 2 mathscore enscore AGGREGATE MIN <span class="hljs-comment"># 取两个集合的成员score最小值作为结果的</span><br>(<span class="hljs-built_in">integer</span>) 3<br>127.0.0.1:6379&gt; ZRANGE lowestscore 0 -1 withscores<br>1) <span class="hljs-string">&quot;xm&quot;</span><br>2) <span class="hljs-string">&quot;70&quot;</span><br>3) <span class="hljs-string">&quot;xg&quot;</span><br>4) <span class="hljs-string">&quot;87&quot;</span><br>5) <span class="hljs-string">&quot;xh&quot;</span><br>6) <span class="hljs-string">&quot;93&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>应用案例：</p>
+<ul>
+<li>set排序 存储班级成绩表 工资表排序！</li>
+<li>普通消息，1.重要消息 2.带权重进行判断</li>
+<li>排行榜应用实现，取Top N测试</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/20/2021-3-20-redis07/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">狂神Redis-07 Springboot整合</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/01/2021-03-01-hackers&amp;painters/">
+                        <span class="hidden-mobile">《黑客与画家》读后感</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

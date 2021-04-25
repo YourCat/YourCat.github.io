@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>Javaweb学习04-会话技术 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Javaweb学习04-会话技术">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-02-01 21:10" pubdate>
+        2018年2月1日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Javaweb学习04-会话技术</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>什么是会话？<br>会话可简单理解为：用户开一个浏览器，点击多个超链接，访问服务器多个web资源，然后关闭浏览器，整个过程称之为一个会话。<br>会话过程中要解决的一些问题？<br>每个用户在使用浏览器与服务器进行会话的过程中，不可避免各自会产生一些数据，服务器要想办法为每个用户保存这些数据。<br>例如：多个用户点击超链接通过一个servlet各自购买了一个商品，服务器应该想办法把每一个用户购买的商品保存在各自的地方，以便于这些用户点结帐servlet时，结帐servlet可以得到用户各自购买的商品为用户结帐。<br>提问：这些数据保存在request或servletContext中行不行？</p>
+<p><strong>隐藏字段：</strong> 将状态信息以窗体中看不到的输入字段响应给浏览器，在下次发窗体时一并发送这些隐藏的输入字段值。  </p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>保存会话数据的两种技术：<br>Cookie：客户端技术，服务器把每个用户的数据以cookie的形式写给用户各自的浏览器。当用户使用浏览器再去访问服务器中的web资源时，就会带着各自的数据去。这样，web资源处理的就是用户各自的数据了。<br><img src="/img/cookie.jpg" srcset="/img/loading.gif" lazyload alt="img"><br>Session：服务器端技术，利用这个技术，服务器在运行时可以为每一个用户的浏览器创建一个其独享的session对象，由于session为用户浏览器独享，所以用户在访问服务器的web资源时，可以把各自的数据放在各自的session中，当用户再去访问服务器中的其它web资源时，其它web资源再从用户各自的session中取出数据为用户服务。<br><img src="/img/session.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>Cookie应用:<br>1.显示用户上次访问时间</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">response.set<span class="hljs-constructor">CharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>)</span>;<br>response.set<span class="hljs-constructor">ContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>)</span>;<br>PrintWriter out = response.get<span class="hljs-constructor">Writer()</span>;<br>out.print(<span class="hljs-string">&quot;上次访问时间：&quot;</span>);<br>Cookie cookies<span class="hljs-literal">[]</span>=request.get<span class="hljs-constructor">Cookies()</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;cookies!=null<span class="hljs-operator"> &amp;&amp; </span>i&lt;cookies.length;i++)&#123;<br>	<span class="hljs-keyword">if</span>(cookies<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>.get<span class="hljs-constructor">Name()</span>.equals(<span class="hljs-string">&quot;lastAccessTime&quot;</span>))&#123;<br>		long cookieValue=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Long</span>.</span></span>parse<span class="hljs-constructor">Long(<span class="hljs-params">cookies</span>[<span class="hljs-params">i</span>].<span class="hljs-params">getValue</span>()</span>);<br>		Date date=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Date(<span class="hljs-params">cookieValue</span>)</span>;<br>		out.print(date.<span class="hljs-keyword">to</span><span class="hljs-constructor">LocaleString()</span>);<br>	&#125;<br>&#125;<br><br>Cookie cookie=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Cookie(<span class="hljs-string">&quot;lastAccessTime&quot;</span>,System.<span class="hljs-params">currentTimeMillis</span>()</span>+<span class="hljs-string">&quot;&quot;</span>);<br>cookie.set<span class="hljs-constructor">MaxAge(3600)</span>;<span class="hljs-comment">// 以秒为单位</span><br>cookie.set<span class="hljs-constructor">Path(<span class="hljs-string">&quot;/day07&quot;</span>)</span>;<br>response.add<span class="hljs-constructor">Cookie(<span class="hljs-params">cookie</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>ps:一个Cookie只能标识一种信息，它至少含有一个标识该信息的名称（NAME）和设置值（VALUE）。<br>一个WEB站点可以给一个WEB浏览器发送多个Cookie，一个WEB浏览器也可以存储多个WEB站点提供的Cookie。<br>浏览器一般只允许存放300个Cookie，每个站点最多存放20个Cookie，每个Cookie的大小限制为4KB。<br>如果创建了一个cookie，并将他发送到浏览器，默认情况下它是一个会话级别的cookie（即存储在浏览器的内存中），用户退出浏览器之后即被删除。若希望浏览器将该cookie存储在磁盘上，则需要使用maxAge，并给出一个以秒为单位的时间。将最大时效设为0则是命令浏览器删除该cookie。<br>注意，删除cookie时，path必须一致，否则不会删除  </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//清除cookie，用javascript也可实现</span><br>Cookie cookie=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Cookie(<span class="hljs-string">&quot;lastAccessTime&quot;</span>,System.<span class="hljs-params">currentTimeMillis</span>()</span>+<span class="hljs-string">&quot;&quot;</span>);<br>cookie.set<span class="hljs-constructor">MaxAge(0)</span>;<span class="hljs-comment">// 以秒为单位</span><br>cookie.set<span class="hljs-constructor">Path(<span class="hljs-string">&quot;/day07&quot;</span>)</span>;<br>response.add<span class="hljs-constructor">Cookie(<span class="hljs-params">cookie</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>2.显示用户上次浏览过的商品</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-comment">//清除cookie</span><br><span class="hljs-keyword">public</span> class CookieDemo3 extends HttpServlet &#123;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> doGet(HttpServletRequest request, HttpServletResponse response)<br>			<span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>		response.setCharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>);<br>		response.setContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>);<br>		PrintWriter out = response.getWriter();<br>		<span class="hljs-comment">//输出所有商品</span><br>		out.write(<span class="hljs-string">&quot;本站有如下商品:&lt;br/&gt;&quot;</span>);<br>		Map&lt;<span class="hljs-keyword">String</span>,Book&gt;<span class="hljs-built_in">map</span>=Db.getAll();<br>		<span class="hljs-keyword">for</span>(Map.Entry&lt;<span class="hljs-keyword">String</span>, Book&gt; entry:<span class="hljs-built_in">map</span>.entrySet())&#123;<br>			Book book=entry.getValue();<br>			out.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&lt;a target=\&quot;_blank\&quot; href=&#x27;/day07/servlet/cookieDemo4?id=&quot;</span>+book.getId()+<span class="hljs-string">&quot;&#x27;&gt;&quot;</span>+book.getName()+<span class="hljs-string">&quot;&lt;/a&gt;&lt;br/&gt;&quot;</span>);<br><br>		&#125;<br>		<span class="hljs-comment">//显示用户看过的商品</span><br>		out.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&lt;br/&gt;你曾经看过的商品&lt;br/&gt;&quot;</span>);<br>		Cookie cookies[]=request.getCookies();<br>		<span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;cookies!=<span class="hljs-keyword">null</span> &amp;&amp; i&lt;cookies.length;i++)&#123;<br>			<span class="hljs-keyword">if</span>(cookies[i].getName().equals(<span class="hljs-string">&quot;bookHistory&quot;</span>))&#123;<br>				<span class="hljs-keyword">String</span> ids[]=cookies[i].getValue().<span class="hljs-built_in">split</span>(<span class="hljs-string">&quot;\\,&quot;</span>);<span class="hljs-comment">//2,3,1</span><br>				<span class="hljs-keyword">for</span>(<span class="hljs-keyword">String</span> id:ids)&#123;<br>					Book book=(Book) Db.getAll().<span class="hljs-built_in">get</span>(id);<br>					out.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&lt;a target=\&quot;_blank\&quot; href=&#x27;/day07/servlet/cookieDemo4?id=&quot;</span>+book.getId()+<span class="hljs-string">&quot;&#x27;&gt;&quot;</span>+book.getName()+<span class="hljs-string">&quot;&lt;/a&gt;&lt;br/&gt;&quot;</span>);<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br><br>class Db&#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Map&lt;<span class="hljs-keyword">String</span>,Book&gt; <span class="hljs-built_in">map</span>=<span class="hljs-keyword">new</span> LinkedHashMap&lt;<span class="hljs-keyword">String</span>,Book&gt;();<br>	<span class="hljs-keyword">static</span> &#123;<br>		<span class="hljs-built_in">map</span>.put(<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;1&quot;</span>,<span class="hljs-string">&quot;JavaWeb开发&quot;</span>,<span class="hljs-string">&quot;老k&quot;</span>,<span class="hljs-string">&quot;一本好书&quot;</span>));<br>		<span class="hljs-built_in">map</span>.put(<span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;2&quot;</span>,<span class="hljs-string">&quot;jdbc开发&quot;</span>,<span class="hljs-string">&quot;老张&quot;</span>,<span class="hljs-string">&quot;一本好书&quot;</span>));<br>		<span class="hljs-built_in">map</span>.put(<span class="hljs-string">&quot;3&quot;</span>, <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;3&quot;</span>,<span class="hljs-string">&quot;spring开发&quot;</span>,<span class="hljs-string">&quot;老li&quot;</span>,<span class="hljs-string">&quot;一本好书&quot;</span>));<br>		<span class="hljs-built_in">map</span>.put(<span class="hljs-string">&quot;4&quot;</span>, <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;4&quot;</span>,<span class="hljs-string">&quot;struts开发&quot;</span>,<span class="hljs-string">&quot;老张&quot;</span>,<span class="hljs-string">&quot;一本好书&quot;</span>));<br>		<span class="hljs-built_in">map</span>.put(<span class="hljs-string">&quot;5&quot;</span>, <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;5&quot;</span>,<span class="hljs-string">&quot;android开发&quot;</span>,<span class="hljs-string">&quot;老bi&quot;</span>,<span class="hljs-string">&quot;一本好书&quot;</span>));<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map getAll()&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-built_in">map</span>;<br>	&#125;<br>&#125;<br><br>class Book&#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">String</span> id,name,author,description;<br>  ...<br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//显示详细信息的servlet</span><br><br>public <span class="hljs-keyword">class</span> CookieDemo4 extends HttpServlet &#123;<br><br>	public void <span class="hljs-keyword">do</span><span class="hljs-constructor">Get(HttpServletRequest <span class="hljs-params">request</span>, HttpServletResponse <span class="hljs-params">response</span>)</span><br>			throws ServletException, IOException &#123;<br>		<span class="hljs-comment">//根据用户带过来的id，显示相应的详细信息</span><br>		response.set<span class="hljs-constructor">CharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>)</span>;<br>		response.set<span class="hljs-constructor">ContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>)</span>;<br>		PrintWriter out = response.get<span class="hljs-constructor">Writer()</span>;<br>		String id=request.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;id&quot;</span>)</span>;<br>		Book book=(Book)<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Db</span>.</span></span>get<span class="hljs-constructor">All()</span>.get(id);<br>		out.write(book.get<span class="hljs-constructor">Id()</span>+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);<br>		out.write(book.get<span class="hljs-constructor">Name()</span>+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);<br>		out.write(book.get<span class="hljs-constructor">Author()</span>+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);<br>		out.write(book.get<span class="hljs-constructor">Description()</span>+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);<br>		<span class="hljs-comment">//2.构建cookie，回写给浏览器；</span><br>		String cookieValue=build<span class="hljs-constructor">Cookie(<span class="hljs-params">id</span>,<span class="hljs-params">request</span>)</span>;<br>		Cookie cookie=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Cookie(<span class="hljs-string">&quot;bookHistory&quot;</span>,<span class="hljs-params">cookieValue</span>)</span>;<br>		cookie.set<span class="hljs-constructor">MaxAge(1<span class="hljs-operator">*</span>30<span class="hljs-operator">*</span>24<span class="hljs-operator">*</span>3600)</span>;<span class="hljs-comment">//1 个月</span><br>		cookie.set<span class="hljs-constructor">Path(<span class="hljs-string">&quot;/day07&quot;</span>)</span>;<br>		response.add<span class="hljs-constructor">Cookie(<span class="hljs-params">cookie</span>)</span>;		<br>	&#125;<br><br>	<span class="hljs-keyword">private</span> String build<span class="hljs-constructor">Cookie(String <span class="hljs-params">id</span>, HttpServletRequest <span class="hljs-params">request</span>)</span> &#123;<br>		<span class="hljs-comment">//bookHistory =null   1    1</span><br>		<span class="hljs-comment">//bookHistory=2,5,1   1    1,2,5</span><br>		<span class="hljs-comment">//bookHistory=2,5,4   1    1,2,5</span><br>		<span class="hljs-comment">//bookHistroy=2,5     1    1,2,5   // 假如列表最多3个</span><br>		String bookHistroy=null;<br>		Cookie cookies<span class="hljs-literal">[]</span>=request.get<span class="hljs-constructor">Cookies()</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;cookies!=null<span class="hljs-operator"> &amp;&amp; </span>i&lt;cookies.length;i++)&#123;<br>			<span class="hljs-keyword">if</span>(cookies<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>.get<span class="hljs-constructor">Name()</span>.equals(<span class="hljs-string">&quot;bookHistory&quot;</span>))&#123;<br>				bookHistroy=cookies<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>.get<span class="hljs-constructor">Value()</span>;				<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span>(bookHistroy==null)<br>			return id;<br>		<span class="hljs-comment">//if(bookHistroy.contains(id))不能这样  21,23 也包括1</span><br>		List&lt;String&gt; <span class="hljs-built_in">list</span>=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Arrays</span>.</span></span><span class="hljs-keyword">as</span><span class="hljs-constructor">List(<span class="hljs-params">bookHistroy</span>.<span class="hljs-params">split</span>(<span class="hljs-string">&quot;\\,&quot;</span>)</span>);<br>		LinkedList &lt;String&gt;linkedlist=<span class="hljs-keyword">new</span> LinkedList&lt;String&gt;(<span class="hljs-built_in">list</span>);<br>		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>.contains(id))&#123;<br>			linkedlist.remove(id);<br>			linkedlist.add<span class="hljs-constructor">First(<span class="hljs-params">id</span>)</span>;<br>		&#125;<span class="hljs-keyword">else</span>&#123;<br>			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>.size<span class="hljs-literal">()</span>&gt;=<span class="hljs-number">3</span>)&#123;<br>				linkedlist.remove<span class="hljs-constructor">Last()</span>;<br>				linkedlist.add<span class="hljs-constructor">First(<span class="hljs-params">id</span>)</span>;<br>			&#125;<span class="hljs-keyword">else</span><br>				linkedlist.add<span class="hljs-constructor">First(<span class="hljs-params">id</span>)</span>;<br>		&#125;<br>		StringBuffer sb=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer()</span>;<br>		<span class="hljs-keyword">for</span>(String bid : linkedlist)&#123;<br>			sb.append(bid+<span class="hljs-string">&quot;,&quot;</span>);<br>		&#125;<br>		return sb.delete<span class="hljs-constructor">CharAt(<span class="hljs-params">sb</span>.<span class="hljs-params">length</span>()</span>-<span class="hljs-number">1</span>).<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>;		<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>Session应用：<br>完成简单的购物功能(只有部分代码)</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">out.print(<span class="hljs-string">&quot;本站有如下商品&lt;br/&gt;&quot;</span>);<br>Map &lt;String,Book&gt;map=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Db</span>.</span></span>get<span class="hljs-constructor">All()</span>;<br><span class="hljs-keyword">for</span>(Map.Entry&lt;String, Book&gt; entry:map.entry<span class="hljs-constructor">Set()</span>)&#123;<br>	Book book=entry.get<span class="hljs-constructor">Value()</span>;<br>	String str=<span class="hljs-string">&quot;&lt;a target=\&quot;_blank\&quot; href=&#x27;&quot;</span>+request.get<span class="hljs-constructor">ContextPath()</span>+<span class="hljs-string">&quot;/servlet/buyServlet?id=&quot;</span>+book.get<span class="hljs-constructor">Id()</span>+<span class="hljs-string">&quot;&#x27;&gt;&quot;</span>+book.get<span class="hljs-constructor">Name()</span>+<span class="hljs-string">&quot;购买&quot;</span>+<span class="hljs-string">&quot;&lt;/a&gt;&lt;br/&gt;&quot;</span>;<br>	out.print(str);<br>&#125;<br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;a&quot;</span>+request.get<span class="hljs-constructor">ContextPath()</span>+<span class="hljs-string">&quot;b&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">String id=request.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;id&quot;</span>)</span>;<br>Book book=(Book)<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Db</span>.</span></span>get<span class="hljs-constructor">All()</span>.get(id);<br>HttpSession session=request.get<span class="hljs-constructor">Session()</span>;<br><span class="hljs-comment">//用session中得到用户购买的商品集合</span><br>List &lt;Book&gt; <span class="hljs-built_in">list</span>=(List)session.get<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;list&quot;</span>)</span>;<br><span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>==null)&#123;<br>	<span class="hljs-built_in">list</span>=<span class="hljs-keyword">new</span> LinkedList&lt;Book&gt;<span class="hljs-literal">()</span>;<br>	session.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;list&quot;</span>, <span class="hljs-params">list</span>)</span>;<br>&#125;		<br><span class="hljs-built_in">list</span>.add(book);<br>response.send<span class="hljs-constructor">Redirect(<span class="hljs-params">request</span>.<span class="hljs-params">getContextPath</span>()</span>+<span class="hljs-string">&quot;/servlet/listCartServlet&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">HttpSession <span class="hljs-keyword">session</span>=request.getSession(<span class="hljs-keyword">false</span>);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">session</span>==<span class="hljs-keyword">null</span>)&#123;<br>	<span class="hljs-keyword">out</span>.<span class="hljs-keyword">write</span>(&quot;您没有购买任何商品&quot;);<span class="hljs-keyword">return</span>;<br>&#125;<br>List&lt;Book&gt; list=(List) <span class="hljs-keyword">session</span>.getAttribute(&quot;list&quot;);<br><span class="hljs-keyword">out</span>.<span class="hljs-keyword">write</span>(&quot;你购买了如下商品&quot;);<br><span class="hljs-keyword">for</span>(Book book:list)&#123;<br>	<span class="hljs-keyword">out</span>.<span class="hljs-keyword">write</span>(book.getName()+&quot;&lt;br/&gt;&quot;);<br>&#125;		<br></code></pre></td></tr></table></figure>
+<p>Session原理：<br><img src="/img/session2.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>问题：如何实现多个IE浏览器共享同一session？(应用：关掉IE后，再开IE，上次购买的商品还在。)  </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">HttpSession session=request.get<span class="hljs-constructor">Session()</span>;<br>session.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;洗衣机&quot;</span>)</span>;<br>String id=session.get<span class="hljs-constructor">Id()</span>;<br>Cookie cookie=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Cookie(<span class="hljs-string">&quot;JSESSIONID&quot;</span>,<span class="hljs-params">id</span>)</span>;<br>cookie.set<span class="hljs-constructor">Path(<span class="hljs-string">&quot;/day07&quot;</span>)</span>;<br>cookie.set<span class="hljs-constructor">MaxAge(30<span class="hljs-operator">*</span>60)</span>;<span class="hljs-comment">//30 minutes</span><br>response.add<span class="hljs-constructor">Cookie(<span class="hljs-params">cookie</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>IE禁用Cookie后的session处理(URL重写)<br>response. encodeRedirectURL(java.lang.String url)   用于对sendRedirect方法后的url地址进行重写。<br>response. encodeURL(java.lang.String url)  用于对表单action和超链接的url地址进行重写</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;%<br>  request.getSession();<br>  String <span class="hljs-attribute">str1</span>=response.encodeURL(&quot;/day07/servlet/sessionDemo1&quot;);<br>  String <span class="hljs-attribute">str2</span>=response.encodeURL(&quot;/day07/servlet/sessionDemo2&quot;);  <br>%&gt;<br>  &lt;a <span class="hljs-attribute">href</span>=&lt;%=str1%&gt; <span class="hljs-attribute">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;购买&lt;/a&gt; &lt;br&gt;<br>  &lt;a <span class="hljs-attribute">href</span>=&lt;%=str2 %&gt; <span class="hljs-attribute">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;结账&lt;/a&gt; &lt;br&gt;<br></code></pre></td></tr></table></figure>
+<p>Session案例：<br>防止表单重复提交<br>单页面由servlet程序生成，servlet为每次产生的表单页面分配一个唯一的随机标识号，并在FORM表单的一个隐藏字段中设置这个标识号，同时在当前用户的Session域中保存这个标识号。<br>当用户提交FORM表单时，负责处理表单提交的serlvet得到表单提交的标识号，并与session中存储的标识号比较，如果相同则处理表单提交，处理完后清除当前用户的Session域中存储的标识号。<br>在下列情况下，服务器程序将拒绝用户提交的表单请求：  </p>
+<ul>
+<li>存储Session域中的表单标识号与表单提交的标识号不同  </li>
+<li>当前用户的Session中不存在表单标识号  </li>
+<li>用户提交的表单数据中没有标识号字段  </li>
+</ul>
+<p>编写工具类生成表单标识号：TokenProcessor  </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//首页</span><br><br>	public void <span class="hljs-keyword">do</span><span class="hljs-constructor">Get(HttpServletRequest <span class="hljs-params">request</span>, HttpServletResponse <span class="hljs-params">response</span>)</span><br>			throws ServletException, IOException &#123;<br>		<span class="hljs-comment">//产生随机数（表单号)</span><br>TokenProcessor tp=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TokenProcessor</span>.</span></span>get<span class="hljs-constructor">Instance()</span>;<br>String token=tp.generate<span class="hljs-constructor">Token()</span>;<br>request.get<span class="hljs-constructor">Session()</span>.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;token&quot;</span>, <span class="hljs-params">token</span>)</span>;<br>request.get<span class="hljs-constructor">RequestDispatcher(<span class="hljs-string">&quot;/form.jsp&quot;</span>)</span>.forward(request, response);<br>&#125;<br><span class="hljs-keyword">class</span> TokenProcessor&#123;<span class="hljs-comment">//令牌  </span><br>	<span class="hljs-comment">/*</span><br><span class="hljs-comment">	 * 1。构造 方法私有</span><br><span class="hljs-comment">	 * 2。自己创建一个</span><br><span class="hljs-comment">	 * 3。对外暴露一个方法，允许获取上面创建的对象	 *</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-constructor">TokenProcessor()</span>&#123;&#125;<br>	<span class="hljs-keyword">private</span> static final TokenProcessor instance=<span class="hljs-keyword">new</span> <span class="hljs-constructor">TokenProcessor()</span>;<br>	public static TokenProcessor get<span class="hljs-constructor">Instance()</span>&#123;<br>		return instance;<br><br>	&#125;<br>	public String generate<span class="hljs-constructor">Token()</span>&#123;<br>		String token=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>current<span class="hljs-constructor">TimeMillis()</span>+<span class="hljs-keyword">new</span> <span class="hljs-constructor">Random()</span>.next<span class="hljs-constructor">Int()</span>+<span class="hljs-string">&quot;&quot;</span>;<br>		<span class="hljs-keyword">try</span> &#123;<br>			MessageDigest md=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">MessageDigest</span>.</span></span>get<span class="hljs-constructor">Instance(<span class="hljs-string">&quot;md5&quot;</span>)</span>;<br>			byte <span class="hljs-literal">[]</span>md5=md.digest(token.get<span class="hljs-constructor">Bytes()</span>);<br>			<span class="hljs-comment">//base64编码</span><br>			BASE64Encoder encoder=<span class="hljs-keyword">new</span> <span class="hljs-constructor">BASE64Encoder()</span>;<span class="hljs-comment">//文档没有正式发布</span><br>			return encoder.encode(md5);<br>			<span class="hljs-comment">//return new String(md5);</span><br>		&#125; catch (NoSuchAlgorithmException e) &#123;<br>			throw <span class="hljs-keyword">new</span> <span class="hljs-constructor">RuntimeException(<span class="hljs-params">e</span>)</span>;<br>		&#125;<br>		<span class="hljs-comment">//return null;</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs erb"><span class="xml">//form.jsp</span><br><span class="xml">&lt;%</span><span class="ruby">@ page language=<span class="hljs-string">&quot;java&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span></span><span class="xml">%&gt;</span><br><span class="xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">HTML</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>My JSP &#x27;form.jsp&#x27; starting page<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;pragma&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;no-cache&quot;</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;cache-control&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;no-cache&quot;</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;expires&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>    </span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span></span><br><span class="xml">	  var iscommitted=false;</span><br><span class="xml">	  function dosubmit()&#123;</span><br><span class="xml">	  	if(!iscommitted)&#123;</span><br><span class="xml">	  		iscommitted=true;</span><br><span class="xml">	  		document.getElementById(&quot;tbn&quot;).disabled=&quot;disabled&quot;;</span><br><span class="xml">	  		return true;</span><br><span class="xml">	  	&#125;else&#123;</span><br><span class="xml">	  	return false;</span><br><span class="xml">	  	&#125;</span><br><span class="xml">  	&#125;</span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml">    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/day07/servlet/doFormServlet&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">onsubmit</span>=<span class="hljs-string">&quot;return dosubmit()&quot;</span>&gt;</span></span><br><span class="xml">      用户名：<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span>/&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btn&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;提交&quot;</span>/&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;token&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;$&#123;token&#125;&quot;</span>/&gt;</span></span><br><span class="xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">//处理提交的servlet</span><br>	request.set<span class="hljs-constructor">CharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>)</span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * String username=request.getParameter(&quot;username&quot;); try &#123;</span><br><span class="hljs-comment"> * Thread.sleep(1000*3); &#125; catch (InterruptedException e) &#123; // TODO</span><br><span class="hljs-comment"> * Auto-generated catch block e.printStackTrace(); &#125;</span><br><span class="hljs-comment"> * System.out.println(&quot;向数据库写用户名&quot;);</span><br><span class="hljs-comment"> */</span><br>String r_token = request.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;token&quot;</span>)</span>;<br>HttpSession session = request.get<span class="hljs-constructor">Session(<span class="hljs-params">false</span>)</span>;<br><span class="hljs-keyword">if</span> (r_token != null<br><span class="hljs-operator">		&amp;&amp; </span>session != null<br><span class="hljs-operator">		&amp;&amp; </span>r_token.equals<span class="hljs-constructor">IgnoreCase((String)</span> session.get<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;token&quot;</span>)</span>)) &#123;<br>	request.get<span class="hljs-constructor">Session()</span>.remove<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;token&quot;</span>)</span>;<br>	<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;向数据库写用户名&quot;</span>);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;重复提交&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>一次性验证码的主要目的就是为了限制人们利用工具软件来暴力猜测密码。<br>服务器程序接收到表单数据后，首先判断用户是否填写了正确的验证码，只有该验证码与服务器端保存的验证码匹配时，服务器程序才开始正常的表单处理流程。<br>密码猜测工具要逐一尝试每个密码的前题条件是先输入正确的验证码，而验证码是一次性有效的，这样基本上就阻断了密码猜测工具的自动地处理过程。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>该刷题了，要开学了，PAT凉凉凉凉凉，该换一个更加积极向上的学习状态了emmmmmmm</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/02/01/2018-02-01-PAT-1039/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1039. Course List for Student (25) -PAT甲级</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/02/01/2018-01-31-javaweb3/">
+                        <span class="hidden-mobile">Javaweb学习03-resquest&response</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>Javaweb学习05-JSP技术 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Javaweb学习05-JSP技术">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-02-02 21:20" pubdate>
+        2018年2月2日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Javaweb学习05-JSP技术</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JSP全称是Java Server Pages，它和servle技术一样，都是SUN公司定义的一种用于开发动态web资源的技术。  </p>
+<p>JSP这门技术的最大的特点在于，写jsp就像在写html，但：<br>它相比html而言，html只能为用户提供静态数据，而Jsp技术允许在页面中嵌套java代码，为用户提供动态数据。<br>相比servlet而言，servlet很难对数据进行排版，而jsp除了可以用java代码产生动态数据的同时，也很容易对数据进行排版。  </p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p><strong>JSP模版元素</strong><br>JSP页面中的HTML内容称之为JSP模版元素。<br>JSP模版元素定义了网页的基本骨架，即定义了页面的结构和外观。  </p>
+<p><strong>JSP脚本表达式</strong><br>JSP脚本表达式（expression）用于将程序数据输出到客户端<br>    语法：&lt;%= 变量或表达式 %&gt;<br>    举例：当前时间:&lt;%= new java.util.Date() %&gt;<br>JSP引擎在翻译脚本表达式时，会将程序数据转成字符串，然后在相应位置用out.print(…) 将数据输给客户端。<br>JSP脚本表达式中的变量或表达式后面不能有分号（;）。  </p>
+<p><strong>JSP脚本片断</strong><br>JSP脚本片断（scriptlet）用于在JSP页面中编写多行Java代码。语法：<br>&lt;%<br>        多行java代码<br>%&gt;<br>注意：JSP脚本片断中只能出现java代码，不能出现其它模板元素， JSP引擎在翻译JSP页面中，会将JSP脚本片断中的Java代码将被原封不动地放到Servlet的_jspService方法中。  </p>
+<p><strong>JSP声明</strong><br>JSP页面中编写的所有代码，默认会翻译到servlet的service方法中， 而Jsp声明中的java代码被翻译到_jspService方法的外面。语法：<br>&lt;%！<br>    java代码<br>%&gt;<br>所以，JSP声明可用于定义JSP页面转换成的Servlet程序的静态代码块、成员变量和方法 。   </p>
+<p>多个静态代码块、变量和函数可以定义在一个JSP声明中，也可以分别单独定义在多个JSP声明中。  </p>
+<p>JSP隐式对象的作用范围仅限于Servlet的_jspService方法，所以在JSP声明中不能使用这些隐式对象。  </p>
+<p><strong>JSP注释</strong><br>JSP注释的格式：<br>        &lt;%– 注释信息 –%&gt;<br>JSP引擎在将JSP页面翻译成Servlet程序时，忽略JSP页面中被注释的内容。  </p>
+<p><strong>JSP指令</strong><br>JSP指令（directive）是为JSP引擎而设计的，它们并不直接产生任何可见输出，而只是告诉引擎如何处理JSP页面中的其余部分。<br>在JSP 2.0规范中共定义了三个指令：  </p>
+<ul>
+<li>page指令</li>
+<li>Include指令</li>
+<li>taglib指令</li>
+</ul>
+<p>SP指令的基本语法格式：<br>    &lt;%@ 指令 属性名=”值” %&gt;<br>    举例：&lt;%@ page contentType=”text/html;charset=gb2312”%&gt;<br>如果一个指令有多个属性，这多个属性可以写在一个指令中，也可以分开写。  </p>
+<p>Page指令<br>page指令用于定义JSP页面的各种属性，无论page指令出现在JSP页面中的什么地方，它作用的都是整个JSP页面，为了保持程序的可读性和遵循良好的编程习惯，page指令最好是放在整个JSP页面的起始位置。<br>JSP 2.0规范中定义的page指令的完整语法：  </p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&lt;<span class="hljs-comment">%@ page</span><br>	[ language=<span class="hljs-string">&quot;java&quot;</span> ]<br>	[ extends=<span class="hljs-string">&quot;package.class&quot;</span> ]<br>	[ import=<span class="hljs-string">&quot;&#123;package.class | package.*&#125;, ...&quot;</span> ]<br>	[ session=<span class="hljs-string">&quot;true | false&quot;</span> ]<br>	[ buffer=<span class="hljs-string">&quot;none | 8kb | sizekb&quot;</span> ]<br>	[ autoFlush=<span class="hljs-string">&quot;true | false&quot;</span> ]<br>	[ isThreadSafe=<span class="hljs-string">&quot;true | false&quot;</span> ]<br>	[ info=<span class="hljs-string">&quot;text&quot;</span> ]<br>	[ errorPage=<span class="hljs-string">&quot;relative_url&quot;</span> ]<br>	[ isErrorPage=<span class="hljs-string">&quot;true | false&quot;</span> ]<br>	[ contentType=<span class="hljs-string">&quot;mimeType [ ;charset=characterSet ]&quot;</span> | <span class="hljs-string">&quot;text/html ; charset=ISO-8859-1&quot;</span> ]<br>	[ pageEncoding=<span class="hljs-string">&quot;characterSet | ISO-8859-1&quot;</span> ]<br>	[ isELIgnored=<span class="hljs-string">&quot;true | false&quot;</span> ]<br><span class="hljs-comment">%&gt;</span><br></code></pre></td></tr></table></figure>
+<p>JSP 引擎自动导入下面的包：<br>java.lang.*<br>javax.servlet.*<br>javax.servlet.jsp.*<br>javax.servlet.http.*<br>errorPage属性的设置值必须使用相对路径，如果以“/”开头，表示相对于当前WEB应用程序的根目录（注意不是站点根目录），否则，表示相对于当前页面。<br>可以在web.xml文件中使用<error-page>元素为整个WEB应用程序设置错误处理页面，其中的<exception-type>子元素指定异常类的完全限定名，<location>元素指定以“/”开头的错误处理页面的路径。<br>如果设置了某个JSP页面的errorPage属性，那么在web.xml文件中设置的错误处理将不对该页面起作用。  </p>
+<p>JSP引擎会根据page指令的contentType属性生成相应的调用ServletResponse.setContentType方法的语句。<br>page指令的contentType属性还具有说明JSP源文件的字符编码的作用。  </p>
+<p>使用page指令解决JSP中文乱码<br>JSP程序存在有与Servlet程序完全相同的中文乱码问题<br>输出响应正文时出现的中文乱码问题<br>读取浏览器传递的参数信息时出现的中文乱码问题<br>JSP引擎将JSP页面翻译成Servlet源文件时也可能导致中文乱码问题<br>JSP引擎将JSP源文件翻译成的Servlet源文件默认采用UTF-8编码，而JSP开发人员可以采用各种字符集编码来编写JSP源文件，因此，JSP引擎将JSP源文件翻译成Servlet源文件时，需要进行字符编码转换。<br>如果JSP文件中没有说明它采用的字符集编码，JSP引擎将把它当作默认的ISO8859-1字符集编码处理。<br>如何解决JSP引擎翻译JSP页面时的中文乱码问题<br>通过page指令的contentType属性说明JSP源文件的字符集编码<br>page指令的pageEncoding属性说明JSP源文件的字符集编码  </p>
+<p>include指令<br>include指令用于引入其它JSP页面，如果使用include指令引入了其它JSP页面，那么JSP引擎将把这两个JSP翻译成一个servlet。所以include指令引入通常也称之为静态引入。在编译时包含<br>语法：<br>    &lt;%@ include file=”relativeURL”%&gt;<br>    其中的file属性用于指定被引入文件的相对路径。  file属性的设置值必须使用相对路径，如果以“/”开头，表示相对于当前WEB应用程序的根目录（注意不是站点根目录），否则，表示相对于当前文件。<br>细节：<br>被引入的文件必须遵循JSP语法。<br>被引入的文件可以使用任意的扩展名，即使其扩展名是html，JSP引擎也会按照处理jsp页面的方式处理它里面的内容，为了见明知意，JSP规范建议使用.jspf（JSP fragments）作为静态引入文件的扩展名。<br>由于使用include指令将会涉及到2个JSP页面，并会把2个JSP翻译成一个servlet，所以这2个JSP页面的指令不能冲突（除了pageEncoding和导包除外）。<br>request.getRequestDispatcher(“/a.jsp”).forward(request,response);//动态包含，翻译成多个servlet，运行时包含。    </p>
+<p>taglib指令<br>Taglib指令用于在JSP页面中导入标签库，讲自定义标签技术时讲。  </p>
+<p><strong>JSP九大隐式对象对应关系</strong></p>
+<p>request HttpServletRequest<br>response HttpServletResponse<br>session HttpSession<br>application servletContext<br>config   servletConfig<br>out      JspWriter  —–&gt;   PrintWriter<br>exception<br>page    this<br>pageContext    </p>
+<p><strong>pageContext对象</strong>  </p>
+<p>pageContext对象是JSP技术中最重要的一个对象，它代表JSP页面的运行环境，这个对象不仅封装了对其它8大隐式对象的引用，它自身还是一个域对象，可以用来保存数据。并且，这个对象还封装了web开发中经常涉及到的一些常用操作，例如引入和跳转其它资源、检索其它域对象中的属性等。    </p>
+<p>通过pageContext获得其他对象<br>getException方法返回exception隐式对象<br>getPage方法返回page隐式对象<br>getRequest方法返回request隐式对象<br>getResponse方法返回response隐式对象<br>getServletConfig方法返回config隐式对象<br>getServletContext方法返回application隐式对象<br>getSession方法返回session隐式对象<br>getOut方法返回out隐式对象<br>pageContext封装其它8大内置对象的意义，思考：如果在编程过程中，把pageContext对象传递给一个普通java对象，那么这个java对象将具有什么功能？    //用在 自定义标签上   </p>
+<p>pageContext作为域对象<br>pageContext对象的方法   </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public void set<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>,<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.Object <span class="hljs-params">value</span>)</span>  <br>public java.lang.Object get<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>)</span>  <br>public void remove<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>)</span><br>pageContext对象中还封装了访问其它域的方法<br>public java.lang.Object get<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>,<span class="hljs-params">int</span> <span class="hljs-params">scope</span>)</span><br>public void set<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>, <span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.Object <span class="hljs-params">value</span>,<span class="hljs-params">int</span> <span class="hljs-params">scope</span>)</span><br>public void remove<span class="hljs-constructor">Attribute(<span class="hljs-params">java</span>.<span class="hljs-params">lang</span>.String <span class="hljs-params">name</span>,<span class="hljs-params">int</span> <span class="hljs-params">scope</span>)</span><br></code></pre></td></tr></table></figure>
+<p>代表各个域的常量<br>PageContext.APPLICATION_SCOPE<br>PageContext.SESSION_SCOPE<br>PageContext.REQUEST_SCOPE<br>PageContext.PAGE_SCOPE<br>findAttribute方法    （*重点，查找各个域中的属性）  </p>
+<p>引入和跳转到其他资源<br>PageContext类中定义了一个forward方法和两个include方法来分别简化和替代RequestDispatcher.forward方法和include方法  </p>
+<p>传递给这些方法的资源路径都只能是相对路径，如果路径以“/”开头，表示相对于当前WEB应用程序的根目录，否则，表示相对于当前JSP所映射到的访问路径。  </p>
+<p><strong>JSP标签</strong><br>虽然我们希望JSP页面仅用作数据显示模块，不要嵌套任何java代码引入任何业务逻辑，但在实际开发中不引入一点业务逻辑是不可能的，但引入业务逻辑会导致页面出现难看java代码，怎么办？<br>Sun公司允许用户开发自定义标签封装页面的java代码，以便jsp页面不出现一行java代码。当然sun公司在jsp页面中也内置了一些标签(这些标签叫做jsp标签)，开发人员使用这些标签可以完成页面的一些常用业务逻辑。<br>JSP标签也称之为Jsp Action(JSP动作)元素，它用于在JSP页面中提供业务逻辑功能。  </p>
+<p>JSP常用标签<br>&lt;jsp:include&gt;标签<br>&lt;jsp:forward&gt;标签<br>&lt;jsp:param&gt;标签    </p>
+<p>&lt;jsp:include&gt;标签<br>&lt;jsp:include&gt;标签用于把另外一个资源的输出内容插入进当前JSP页面的输出内容之中，这种在JSP页面执行时的引入方式称之为动态引入。<br>语法：<br>    &lt;jsp:include page=”relativeURL | &lt;%=expression%&gt;” flush=”true|false” /&gt;  </p>
+<p>page属性用于指定被引入资源的相对路径，它也可以通过执行一个表达式来获得。<br>flush属性指定在插入其他资源的输出内容时，是否先将当前JSP页面的已输出的内容刷新到客户端。    </p>
+<p>&lt;jsp:include&gt;与include指令的比较<br>&lt;jsp:include&gt;标签是动态引入， &lt;jsp:include&gt;标签涉及到的2个JSP页面会被翻译成2个servlet，这2个servlet的内容在执行时进行合并。<br>而include指令是静态引入，涉及到的2个JSP页面会被翻译成一个servlet，其内容是在源文件级别进行合并。  </p>
+<p>不管是&lt;jsp:include&gt;标签，还是include指令，它们都会把2个JSP页面内容合并输出，所以这两个页面不要出现重复的HTML全局架构标签，否则输出给客户端的内容将会是个格式混乱的HTML文档。<br>&lt;jsp:include&gt;标签：使用page属性指定被引入资源。<br>include指令：使用file属性指定被引入资源。  </p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs awk">假设myweb应用的根目录下有一个a.jsp文件	如果将a.jsp页面映射成了如下地址：  <br>		http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>dir1/a.html  <br>	在a.jsp页面中使用了如下语句引入b.jsp文件：  <br>		&lt;jsp:include page=<span class="hljs-string">&quot;b.jsp&quot;</span> /&gt;  <br>	请问：b.jsp要位于什么位置，上面的include才不会出错？　  <br>	http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>b.jspf  bad  <br>	http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>dir1/b.jspf   ok  <br>假设myweb应用程序的根目录下有一个a.jsp文件，如果将a.jsp页面映射为如下地址：  <br>		http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>dir1/a.html  <br>	在a.jsp页面中使用了如下语句引入b.jspf文件：  <br>		&lt;%@ include file=“b.jspf”%&gt;  <br>	请问： b.jspf要位于什么位置，上面的include才不会出错？	  <br>	http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>b.jspf   ok  <br>	http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/myweb/</span>dir1/b.jspf   bad  <br></code></pre></td></tr></table></figure>
+
+<p>&lt;jsp:forward&gt;标签<br>&lt;jsp:forward&gt;标签用于把请求转发给另外一个资源。<br>语法：<br>    &lt;jsp:forward page=”relativeURL | &lt;%=expression%&gt;” /&gt;<br>page属性用于指定请求转发到的资源的相对路径，它也可以通过执行一个表达式来获得。  </p>
+<p>&lt;jsp:param&gt;标签<br>当使用<a href="jsp:include">jsp:include</a>和<a href="jsp:forward">jsp:forward</a>标签引入或将请求转发给其它资源时，可以使用<a href="jsp:param">jsp:param</a>标签向这个资源传递参数。<br>语法1：<br>    &lt;jsp:include page=”relativeURL | &lt;%=expression%&gt;”&gt;<br>        &lt;jsp:param name=”parameterName” value=”parameterValue|&lt;%= expression %&gt;” /&gt;<br>    &lt;/jsp:include&gt;<br>语法2：<br>    &lt;jsp:forward page=”relativeURL | &lt;%=expression%&gt;”&gt;<br>        &lt;jsp:param name=”parameterName” value=”parameterValue|&lt;%= expression %&gt;” /&gt;<br>    &lt;/jsp:include&gt;<br>&lt;jsp:param&gt;标签的name属性用于指定参数名，value属性用于指定参数值。在&lt;jsp:include&gt;和<a href="jsp:forward">jsp:forward</a>标签中可以使用多个&lt;jsp:param&gt;标签来传递多个参数。  </p>
+<p><strong>映射JSP</strong></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-params">&lt;servlet&gt;</span><br>	<span class="hljs-params">&lt;servlet-name&gt;</span>SimpleJspServlet<span class="hljs-params">&lt;/servlet-name&gt;</span><br>	<span class="hljs-params">&lt;jsp-file&gt;</span><span class="hljs-meta-keyword">/jsp/</span>simple.jsp<span class="hljs-params">&lt;/jsp-file&gt;</span><br>	<span class="hljs-params">&lt;load-on-startup&gt;</span><span class="hljs-number">1</span><span class="hljs-params">&lt;/load-on-startup &gt;</span><br><span class="hljs-params">&lt;/servlet&gt;</span><br>	……<br><span class="hljs-params">&lt;servlet-mapping&gt;</span><br>	<span class="hljs-params">&lt;servlet-name&gt;</span>SimpleJspServlet<span class="hljs-params">&lt;/servlet-name&gt;</span><br>	<span class="hljs-params">&lt;url-pattern&gt;</span><span class="hljs-meta-keyword">/xxx/</span>yyy.html<span class="hljs-params">&lt;/url-pattern&gt;</span><br><span class="hljs-params">&lt;/servlet-mapping&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>如何查找JSP页面中的错误<br>JSP页面中的JSP语法格式有问题，导致其不能被翻译成Servlet源文件，JSP引擎将提示这类错误发生在JSP页面中的位置（行和列）以及相关信息。<br>JSP页面中的JSP语法格式没有问题，但被翻译成的Servlet源文件中出现了Java语法问题，导致JSP页面翻译成的Servlet源文件不能通过编译，JSP引擎也将提示这类错误发生在JSP页面中的位置（行和列）以及相关信息。<br>JSP页面翻译成的Servlet程序在运行时出现异常，这与普通Java程序的运行时错误完全一样，Java虚拟机将提示错误发生在Servlet源文件中的位置（行和列）以及相关信息。     </p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/02/02/2018-02-02-PAT-1043/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1043. Is It a Binary Search Tree (25) -PAT甲级</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/02/01/2018-02-01-PAT-1041/">
+                        <span class="hidden-mobile">1041. Be Unique (20) -PAT甲级</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

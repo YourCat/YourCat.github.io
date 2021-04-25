@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>狂神Redis-05 事务 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="狂神Redis-05 事务">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-20 18:50" pubdate>
+        2021年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">狂神Redis-05 事务</h1>
+            
+            <div class="markdown-body">
+              <h2 id="五、事务"><a href="#五、事务" class="headerlink" title="五、事务"></a>五、事务</h2><p>Redis的单条命令是保证原子性的，但是redis事务不能保证原子性</p>
+<blockquote>
+<p>Redis事务本质：一组命令的集合。</p>
+<p>—————– 队列 set set set 执行 ——————-</p>
+<p>事务中每条命令都会被序列化，执行过程中按顺序执行，不允许其他命令进行干扰。</p>
+<ul>
+<li>一次性</li>
+<li>顺序性</li>
+<li>排他性</li>
+</ul>
+<hr>
+<ol>
+<li>Redis事务没有隔离级别的概念</li>
+<li>Redis单条命令是保证原子性的，但是事务不保证原子性！</li>
+</ol>
+</blockquote>
+<h3 id="Redis事务操作过程"><a href="#Redis事务操作过程" class="headerlink" title="Redis事务操作过程"></a>Redis事务操作过程</h3><ul>
+<li>开启事务（<code>multi</code>）</li>
+<li>命令入队</li>
+<li>执行事务（<code>exec</code>）</li>
+</ul>
+<p>所以事务中的命令在加入时都没有被执行，直到提交时才会开始执行(Exec)一次性完成。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; multi <span class="hljs-comment"># 开启事务</span><br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k1 v1 <span class="hljs-comment"># 命令入队</span><br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k2 v2 <span class="hljs-comment"># ..</span><br>QUEUED<br>127.0.0.1:6379&gt; get k1<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k3 v3<br>QUEUED<br>127.0.0.1:6379&gt; keys *<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">exec</span> <span class="hljs-comment"># 事务执行</span><br>1) OK<br>2) OK<br>3) <span class="hljs-string">&quot;v1&quot;</span><br>4) OK<br>5) 1) <span class="hljs-string">&quot;k3&quot;</span><br>   2) <span class="hljs-string">&quot;k2&quot;</span><br>   3) <span class="hljs-string">&quot;k1&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>取消事务(<code>discurd</code>)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; multi<br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k1 v1<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k2 v2<br>QUEUED<br>127.0.0.1:6379&gt; DISCARD <span class="hljs-comment"># 放弃事务</span><br>OK<br>127.0.0.1:6379&gt; EXEC<br>(error) ERR EXEC without MULTI <span class="hljs-comment"># 当前未开启事务</span><br>127.0.0.1:6379&gt; get k1 <span class="hljs-comment"># 被放弃事务中命令并未执行</span><br>(nil)<br></code></pre></td></tr></table></figure>
+
+<h3 id="事务错误"><a href="#事务错误" class="headerlink" title="事务错误"></a>事务错误</h3><blockquote>
+<p>代码语法错误（编译时异常）所有的命令都不执行</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; multi<br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k1 v1<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k2 v2<br>QUEUED<br>127.0.0.1:6379&gt; error k1 <span class="hljs-comment"># 这是一条语法错误命令</span><br>(error) ERR unknown <span class="hljs-built_in">command</span> `error`, with args beginning with: `k1`, <span class="hljs-comment"># 会报错但是不影响后续命令入队</span><br>127.0.0.1:6379&gt; get k2<br>QUEUED<br>127.0.0.1:6379&gt; EXEC<br>(error) EXECABORT Transaction discarded because of previous errors. <span class="hljs-comment"># 执行报错</span><br>127.0.0.1:6379&gt; get k1<br>(nil) <span class="hljs-comment"># 其他命令并没有被执行</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>代码逻辑错误 (运行时异常) **其他命令可以正常执行 ** &gt;&gt;&gt; 所以不保证事务原子性</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; multi<br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k1 v1<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> k2 v2<br>QUEUED<br>127.0.0.1:6379&gt; INCR k1 <span class="hljs-comment"># 这条命令逻辑错误（对字符串进行增量）</span><br>QUEUED<br>127.0.0.1:6379&gt; get k2<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">exec</span><br>1) OK<br>2) OK<br>3) (error) ERR value is not an <span class="hljs-built_in">integer</span> or out of range <span class="hljs-comment"># 运行时报错</span><br>4) <span class="hljs-string">&quot;v2&quot;</span> <span class="hljs-comment"># 其他命令正常执行</span><br><br><span class="hljs-comment"># 虽然中间有一条命令报错了，但是后面的指令依旧正常执行成功了。</span><br><span class="hljs-comment"># 所以说Redis单条指令保证原子性，但是Redis事务不能保证原子性。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><p><strong>悲观锁：</strong></p>
+<ul>
+<li>很悲观，认为什么时候都会出现问题，无论做什么都会加锁</li>
+</ul>
+<p><strong>乐观锁：</strong></p>
+<ul>
+<li>很乐观，认为什么时候都不会出现问题，所以不会上锁！更新数据的时候去判断一下，在此期间是否有人修改过这个数据</li>
+<li>获取version</li>
+<li>更新的时候比较version</li>
+</ul>
+<p>使用<code>watch key</code>监控指定数据，相当于乐观锁加锁。</p>
+<blockquote>
+<p>正常执行</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> money 100 <span class="hljs-comment"># 设置余额:100</span><br>OK<br>127.0.0.1:6379&gt; <span class="hljs-built_in">set</span> use 0 <span class="hljs-comment"># 支出使用:0</span><br>OK<br>127.0.0.1:6379&gt; watch money <span class="hljs-comment"># 监视money (上锁)</span><br>OK<br>127.0.0.1:6379&gt; multi<br>OK<br>127.0.0.1:6379&gt; DECRBY money 20<br>QUEUED<br>127.0.0.1:6379&gt; INCRBY use 20<br>QUEUED<br>127.0.0.1:6379&gt; <span class="hljs-built_in">exec</span> <span class="hljs-comment"># 监视值没有被中途修改，事务正常执行</span><br>1) (<span class="hljs-built_in">integer</span>) 80<br>2) (<span class="hljs-built_in">integer</span>) 20<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>测试多线程修改值，使用watch可以当做redis的乐观锁操作（相当于getversion）</p>
+</blockquote>
+<p>我们启动另外一个客户端模拟插队线程。</p>
+<p>线程1：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; watch money <span class="hljs-comment"># money上锁</span><br>OK<br>127.0.0.1:6379&gt; multi<br>OK<br>127.0.0.1:6379&gt; DECRBY money 20<br>QUEUED<br>127.0.0.1:6379&gt; INCRBY use 20<br>QUEUED<br>127.0.0.1:6379&gt; 	<span class="hljs-comment"># 此时事务并没有执行</span><br></code></pre></td></tr></table></figure>
+
+<p>模拟线程插队，线程2：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; INCRBY money 500 <span class="hljs-comment"># 修改了线程一中监视的money</span><br>(<span class="hljs-built_in">integer</span>) 600<br>12<br></code></pre></td></tr></table></figure>
+
+<p>回到线程1，执行事务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1:6379&gt; EXEC <span class="hljs-comment"># 执行之前，另一个线程修改了我们的值，这个时候就会导致事务执行失败</span><br>(nil) <span class="hljs-comment"># 没有结果，说明事务执行失败</span><br><br>127.0.0.1:6379&gt; get money <span class="hljs-comment"># 线程2 修改生效</span><br><span class="hljs-string">&quot;600&quot;</span><br>127.0.0.1:6379&gt; get use <span class="hljs-comment"># 线程1事务执行失败，数值没有被修改</span><br><span class="hljs-string">&quot;0&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>解锁获取最新值，然后再加锁进行事务。</p>
+<p><code>unwatch</code>进行解锁。</p>
+</blockquote>
+<p>注意：每次提交执行exec后都会自动释放锁，不管是否成功</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/20/2021-3-20-redis04/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">狂神Redis-04 三种特殊数据类型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/20/2021-3-20-redis06/">
+                        <span class="hidden-mobile">狂神Redis-06 JRedis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

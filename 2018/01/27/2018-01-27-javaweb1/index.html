@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>Javaweb学习01-Web&amp;HTTP技术 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Javaweb学习01-Web&HTTP技术">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-01-27 21:00" pubdate>
+        2018年1月27日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Javaweb学习01-Web&amp;HTTP技术</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>从该篇开始对于web后端的知识学习，一些概念性的东西从网上拷贝至此，并加以自己的理解和总结。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>首先介绍 <strong>Web技术</strong> 和 <strong>HTTP通信协议</strong> 这两个专有名词以方便对以下知识点的阅读和学习。<br>然后简单讲述 <strong>Servlet/JSP</strong> , <strong>MVC &amp; Model2</strong> 。</p>
+<h4 id="Web技术"><a href="#Web技术" class="headerlink" title="Web技术"></a>Web技术</h4><p>随着互联网技术的发展，基于HTTP和HTML的web应用急速增长。早期的web应用主要用于浏览新闻等静态页面，用户通过HTTP协议请求服务器上的静态页面，服务器上的web服务器软件接收到请求后，读取URI标示的资源，再加上消息报头发送给客户端浏览器，浏览器负责解析HTML，将结果呈现出来。</p>
+<p>然而随着时间发展，用户已经不满足于仅浏览静态页面。用户需要一些交互操作，获取一些动态结果。如果基于HTTP协议实现服务器端软件增强功能太过复杂，所以需要一些扩展机制来实现用户想要的功能。早期使用的Web服务器扩展机制是CGI（Common Gateway Interface，公共网关接口）。使用这种方法，用户单击某个链接或输入网址来访问CGI程序，web服务器收到请求后，运行该CGI程序，对用户请求进行处理，紧接着将处理结果并产生一个响应，该响应被返回给web服务器，web服务器对响应进行包装，以HTTP响应的方式返回给浏览器。</p>
+<p>CGI程序在一定程度上解决了用户需求。不过还存在一些不足之处，如CGI程序编写困难，响应时间较长，以进程方式运行导致性能受限。于是1997年，sun公司推出了Servlet技术，作为java阵营的CGI解决方案。</p>
+<h4 id="HTTP通信协议"><a href="#HTTP通信协议" class="headerlink" title="HTTP通信协议"></a>HTTP通信协议</h4><p>所谓通信协议，是指架构于 TCP/IP 之上的应用层通信协议，其基本上就是两台计算机间的沟通方式。<br>HTTP基本上是一种基于请求(Request)/相应(Reponse)的通信协议，浏览器在使用HTTP发出请求时，可以有几种请求方法，例如GET、POST、HEAD、PUT、DELETE等。这里只讲编写Servlet或JSP遇到的最常接触的前两者。</p>
+<ul>
+<li>GET请求：从指定的资源请求数据。</li>
+<li>POST请求：向指定的资源提交要被处理的数据。</li>
+</ul>
+<p>下面开始上主菜了~</p>
+<h2 id="Servlet-JSP"><a href="#Servlet-JSP" class="headerlink" title="Servlet/JSP"></a>Servlet/JSP</h2><p>Servlet是用Java编写的一个Java类，通过Web容器进行管理。容器是Java编写的一个应用程序，负责与服务器沟通。JSP上可以直接编写HTML，并根据需要添加动态程序部分，容器会将JSP网页译为Servlet进行管理。大致线性关系如图</p>
+<p><img src="/img/post-1.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>当有请求时，使用容器进行处理，开启线程决定由哪个Servlet处理，多个请求则采取多线程。我们初学时接触的Tomcat，其作为一个web容器但本身附带一个简单的HTTP服务器，可以直接打开该服务器部署Servlt，但两者其实不是一个东西，要区分开。<br>下面根据以下实例讲述一个基本的Servlet</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloWorld</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> String message;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException</span>&#123;<br>  message = <span class="hljs-string">&quot;Hello World&quot;</span>;                                 <span class="hljs-comment">// 执行必需的初始化</span><br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest request,</span></span><br><span class="hljs-function"><span class="hljs-params">                    HttpServletResponse response)</span>              <span class="hljs-comment">// 设置响应内容类型</span></span><br><span class="hljs-function">            <span class="hljs-keyword">throws</span> ServletException, IOException</span>&#123;<br>      response.setContentType(<span class="hljs-string">&quot;text/html&quot;</span>);<span class="hljs-comment">// 实际的逻辑是在这里</span><br>      PrintWriter out = response.getWriter();<br>      out.println(<span class="hljs-string">&quot;&lt;h1&gt;&quot;</span> + message + <span class="hljs-string">&quot;&lt;/h1&gt;&quot;</span>);<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span></span>&#123;                                       <span class="hljs-comment">// 什么也不做</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>一个Servlet类，首先是继承了HttpServlet类，重写其doXXX()方法。容器收到请求，创建HttpServletRequst，HttpServletResponse对象(会在之后作详细讲述)，作为之后使用的参数，调用方法时就可以获取http请求的相关信息。<br>ps:关于包的设计，与Servlet定义有关的类或接口位于javax.servlet包中，而与HTTP定义有关的类或接口位于javax.servlet.http包中。<br><strong>xml(设置部署描述文件)</strong> ：需要告诉web容器的关于这个Servlet的信息存放在这里，容器根据web.xml找出Servlet去调用方法。</p>
+<p>Servlet 生命周期可被定义为从创建直到毁灭的整个过程。以下是 Servlet 遵循的过程：</p>
+<ul>
+<li>Servlet 通过调用 init () 方法进行初始化。</li>
+<li>Servlet 调用 service() 方法来处理客户端的请求。</li>
+<li>Servlet 通过调用 destroy() 方法终止（结束）。</li>
+</ul>
+<h4 id="MVC与-Model2-简介"><a href="#MVC与-Model2-简介" class="headerlink" title="MVC与 Model2 简介"></a>MVC与 Model2 简介</h4><p>在Servlet程序中夹杂HTML显然是一件很麻烦的事，这不仅导致了编写和维护的不容易，对团队分工也是一大困扰，因而引入MVC去分离两者。<br>MVC是模型(model)－视图(view)－控制器(controller)的缩写，是一种软件设计典范，即框架。<br><img src="/img/MVC.jpg" srcset="/img/loading.gif" lazyload alt="img"><br>简单说MVC的主要目的就是通过控制器的请求转发，切断模型与视图之间的耦合关系，视图需要数据时通过查询模型来取得。将MVC应用至web应用需作一些修正，因为在模型状态发生改变时，无法从HTTP服务器对浏览器发出通知，去要求浏览器查询模型。所以浏览器必须主动发出请求，经过该修正后得到的架构即被称为Model2架构。<br><img src="/img/model2.jpg" srcset="/img/loading.gif" lazyload alt="img"><br>当以Servlet/JSP技术显示Model2框架时，Servlet扮演了控制器的角色，JSP为视图，模型为封装应用程序状态或业务逻辑。</p>
+<h4 id="HTTP-请求、相应处理"><a href="#HTTP-请求、相应处理" class="headerlink" title="HTTP 请求、相应处理"></a>HTTP 请求、相应处理</h4><p><strong>HttpServletRequest的使用</strong></p>
+<p>HttpServletRequest接口继承ServletRequest接口，后者定义了取得一些通用信息的方法，例如getParameter(),getInputStream()等，前者定义了取得HTTP相关信息的方法，例如getHeader(),getMethod()等。具体方法功能不做描述，虽然HTTP有各种请求方法，但在编写Servelt时绝大多数情况下只处理GET或POST，因此通常只重写doGet()或doPost方法。<br>当请求参数值包括中文时，取得参数时需通过setConutType()来设置。如以下语句：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">response.setContentType(<span class="hljs-string">&quot;text/html;chrset=UTF-8&quot;</span>);      <span class="hljs-regexp">//</span>传送UTF-<span class="hljs-number">8</span>编码的文字<br></code></pre></td></tr></table></figure>
+<p>若要配合浏览器以UTF-8来正确解释文字编码，接受请求时也使用UTF-8编码字符串，则可以在取得任何请求值前执行以下语句：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">request.setCharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>还有一种处理方式，可以在取得请求值后通过String的getBytes()取得制定编码来取得该字符串字节数组，再重新构造UTF-8编码的字符串。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">String username = request.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;name&quot;</span>)</span>;<br>String username = <span class="hljs-keyword">new</span> <span class="hljs-constructor">String(<span class="hljs-params">username</span>.<span class="hljs-params">getBytes</span>(<span class="hljs-string">&quot;ISO-8859-1&quot;</span>)</span>,<span class="hljs-string">&quot;UTF-8&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>请求转发与包含：大多数情况下，应用程序的请求处理和结果相应由不同的Servlet负责，那么就需要考虑请求的转发和包含。<br>可以使用HttpservletRequest的getRequestDispatcher()方法取得RequestDispatcher实例，运行时制定要转发请求的相对URL或绝对URL，代码如下：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">RequestDispatcher dispatcher =  <br>request.get<span class="hljs-constructor">RequestDispatcher(<span class="hljs-params">some</span>.<span class="hljs-params">do</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>取得后执行forward()方法转发请求，将ServletRequest、ServletResponse对象作为参数传入，例如：</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbscript">dispatcher.forward(<span class="hljs-built_in">request</span>,<span class="hljs-built_in">response</span>);<br></code></pre></td></tr></table></figure>
+<p>执行forward()方法表示目前Servlet/JSP不进行相应，将相应的职责交给下一个转发的对象，若打算先对浏览器做部分相应， 中间再将其他Servlet/JSP包括竟来回应，可执行include()方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">dispatcher.<span class="hljs-keyword">include</span>(request,response)；<br></code></pre></td></tr></table></figure>
+<p>ServletRequest属性： 转发过程中必须共享的属性，一般会将下一个处理请求时所需要的对象或数据塞到这个ServletRequest对象中成为属性：</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vbscript">List books = bookDAO.query(<span class="hljs-string">&quot;some books&quot;</span>);  <br><span class="hljs-built_in">request</span>.setAttribute(<span class="hljs-string">&quot;books&quot;</span>,books);  <br><span class="hljs-built_in">request</span>.getRequestDispatcher(<span class="hljs-string">&quot;result.view&quot;</span>).forward(<span class="hljs-built_in">request</span>,<span class="hljs-built_in">response</span>);<br></code></pre></td></tr></table></figure>
+<p><strong>HttpServletResponse的使用</strong></p>
+<p>HttpServletResponse接口继承ServletResponse接口，后者定义了Servlet回应时需要的各种通用方法，后者则定义了与HTTP相关的回应方法，如Cookie的添加、标头的设置等。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">response.setContentType(<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>用重定向方法要求浏览器重新请求一个URL:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">response</span><span class="hljs-selector-class">.sendRedirect</span>(<span class="hljs-string">&quot;http://openhome.cc&quot;</span>)；<br></code></pre></td></tr></table></figure>
+<p>处理请求时发现错误，发送服务器默认状态与错误信息:</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">response.sendError(HttpServletResponse.SC_NOT_FOUND)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>大部分情况下，我们会从HttpServletResponse取得PrintWriter实例，用println()对浏览器输出字符，然后有时需要直接对浏览器进行字节输出，这时可以用getOutputStream()方法取得getOutputStream实例，下面看一个应用的例子:</p>
+<pre><code>public class Ebook extends HttpServlet&#123;
+  protected void doPost(HttpServletRequest request,HttpServletResponse response)
+          throws ServletException,IOException&#123;
+                  String passwd = request.getParameter(&quot;passwd&quot;);
+                  if(&quot;123456&quot;.equals(passwd))&#123;
+                    response.setContentType(&quot;application/pdf&quot;);                                           //设置响应内容类型
+                    InputSteam in = this.getServletContext().
+                                                      getResourceAsStream(&quot;/WEB-INF/jdbc.pdf&quot;);           //取得输入流
+                    OutputStream out = response.getOutputStream();                                        //取得输出流
+                    byte[] buffer = new byte[1024];
+                    int length = -1;
+                    while((length = in.read(buffer))!=-1)&#123;                                                //读取PDF并输出至浏览器
+                      out.write(buffer,0,length);
+                    &#125;
+                    in.close();
+                    out.close();
+                  &#125;
+          &#125;
+&#125;
+</code></pre>
+<p>ps:输入输出流为Java IO的观念，从PDF读入字节数据，再用ServletOutputStream对浏览器进行写出相应。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这篇博文就先写到这里了，因为真的已经写了好多东西，有点头疼，明天继续补充剩下的一点，给Jervlet&amp;JSP前三章的学习画上一个句号，然后开始PAT刷题之旅，晚上若有时间给第四章之后的学习开个头，溜了溜了~   </p>
+<p>句号已画   —2018.01.28</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/01/28/2018-01-28-PAT-1001/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1001. A+B Format (20) -PAT甲级</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/01/27/2018-01-27-build/">
+                        <span class="hidden-mobile">基于GitHub Pages+Jekyll博客搭建心得</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

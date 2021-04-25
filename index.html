@@ -182,6 +182,50 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/05/20/2020-05-20-VUE/" target="_self">
+          Vue框架入门
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/20/2020-05-20-VUE/" target="_self">
+          
+          
+            
+          
+          前言因为毕设需要完成一个基于Vue+Springboot前后端分离的项目，遂来学习这个很牛的前端框架。该文并非讲述搭建完整项目的过程，只是简单概括一下其功能及目录结构下的知识点。
+正文了解Vue官网原话说，Vue是一套用于构建用户界面的渐进式框架，何为渐进式？即你可以只使用Vue的部分功能，其强大的核心功能有：1.基础功能：页面渲染、表单处理、管理DOM节点2.组件化开发3.状态集中管理4.前端工
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-20 18:50" pubdate>
+              2021-05-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6/">前端进阶</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/25/hello-world/" target="_self">
           Hello World
         </a>
@@ -261,7 +305,385 @@ Quick
     </article>
   </div>
 
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis01/" target="_self">
+          狂神Redis-01 NoSql概述
+        </a>
+      </h1>
 
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis01/" target="_self">
+          
+          
+            
+          
+          一、Nosql概述为什么使用Nosql
+1、单机Mysql时代
+
+
+90年代,一个网站的访问量一般不会太大，单个数据库完全够用。随着用户增多，网站出现以下问题
+
+数据量增加到一定程度，单机数据库就放不下了
+数据的索引（B+ Tree）,一个机器内存也存放不下
+访问量变大后（读写混合），一台服务器承受不住。
+
+
+2、Memcached(缓存) + Mysql + 垂直拆分（读写分离）
+
+网站80%的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis02/" target="_self">
+          狂神Redis-02 Redis入门
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis02/" target="_self">
+          
+          
+            
+          
+          二、Redis入门概述
+Redis是什么？
+
+Redis（Remote Dictionary Server )，即远程字典服务。
+是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
+与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis04/" target="_self">
+          狂神Redis-04 三种特殊数据类型
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis04/" target="_self">
+          
+          
+            
+          
+          四、三种特殊数据类型Geospatial(地理位置)
+使用经纬度定位地理坐标并用一个有序集合zset保存，所以zset命令也可以使用
+
+
+
+
+命令
+描述
+
+
+
+geoadd key longitud(经度) latitude(纬度) member [..]
+将具体经纬度的坐标存入一个有序集合
+
+
+geopos key member [member..]
+获取集合中的一个/多个成员坐标
+
+
+geod
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis05/" target="_self">
+          狂神Redis-05 事务
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis05/" target="_self">
+          
+          
+            
+          
+          五、事务Redis的单条命令是保证原子性的，但是redis事务不能保证原子性
+
+Redis事务本质：一组命令的集合。
+—————– 队列 set set set 执行 ——————-
+事务中每条命令都会被序列化，执行过程中按顺序执行，不允许其他命令进行干扰。
+
+一次性
+顺序性
+排他性
+
+
+
+Redis事务没有隔离级别的概念
+Redis单条命令是保证原子性的，但是事务不保证原子性！
+
+
+Redis事
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
+          狂神Redis-06 JRedis
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
+          
+          
+            
+          
+          六、Jedis使用Java来操作Redis，Jedis是Redis官方推荐使用的Java连接redis的客户端。
+
+导入依赖
+123456789101112&lt;!--导入jredis的包--&gt;&lt;dependency&gt;    &lt;groupId&gt;redis.clients&lt;/groupId&gt;    &lt;artifactId&gt;jedis&lt;/a
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
+          狂神Redis-07 Springboot整合
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
+          
+          
+            
+          
+          一、Nosql概述为什么使用Nosql
+1、单机Mysql时代
+
+
+90年代,一个网站的访问量一般不会太大，单个数据库完全够用。随着用户增多，网站出现以下问题
+
+数据量增加到一定程度，单机数据库就放不下了
+数据的索引（B+ Tree）,一个机器内存也存放不下
+访问量变大后（读写混合），一台服务器承受不住。
+
+
+2、Memcached(缓存) + Mysql + 垂直拆分（读写分离）
+
+网站80%的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/2021-3-20-redis03/" target="_self">
+          狂神Redis-03 五大数据类型
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/2021-3-20-redis03/" target="_self">
+          
+          
+            
+          
+          三、五大数据类型 Redis是一个开源（BSD许可），内存存储的数据结构服务器，可用作数据库，高速缓存和消息队列代理。它支持字符串、哈希表、列表、集合、有序集合，位图，hyperloglogs等数据类型。内置复制、Lua脚本、LRU收回、事务以及不同级别磁盘持久化功能，同时通过Redis Sentinel提供高可用，通过Redis Cluster提供自动分区。
+Redis-key
+在redis中无
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 18:50" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/#board">11</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
 
 
 

@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="iHan">
+  <meta name="keywords" content="">
+  
+  <title>Javaweb学习6-JSP标签 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Javaweb学习6-JSP标签">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-03-10 21:20" pubdate>
+        2018年3月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Javaweb学习6-JSP标签</h1>
+            
+            <div class="markdown-body">
+              <h2 id="自定义标签"><a href="#自定义标签" class="headerlink" title="自定义标签"></a>自定义标签</h2><p>主要用于移除Jsp页面中的java代码。  </p>
+<p>移除jsp页面中的java代码，只需要完成两个步骤：  </p>
+<ul>
+<li>编写一个实现Tag接口的Java类，并覆盖doStartTag方法，把jsp页面中的java代码写到doStartTag方法中。</li>
+<li>编写标签库描述符（tld）文件，在tld文件中对自定义标签进行描述。</li>
+</ul>
+<p><strong>Tag接口的执行流程</strong>  </p>
+<p>JSP引擎将遇到自定义标签时，首先创建标签处理器类的实例对象，然后按照JSP规范定义的通信规则依次调用它的方法。<br>1.public void setPageContext(PageContext pc)， JSP引擎实例化标签处理器后，将调用setPageContext方法将JSP页面的pageContext对象传递给标签处理器，标签处理器以后可以通过这个pageContext对象与JSP页面进行通信。<br>2.public void setParent(Tag t)，setPageContext方法执行完后，WEB容器接着调用的setParent方法将当前标签的父标签传递给当前标签处理器，如果当前标签没有父标签，则传递给setParent方法的参数值为null。<br>3.public int doStartTag()，调用了setPageContext方法和setParent方法之后，WEB容器执行到自定义标签的开始标记时，就会调用标签处理器的doStartTag方法。<br>4.public int doEndTag()，WEB容器执行完自定义标签的标签体后，就会接着去执行自定义标签的结束标记，此时，WEB容器会去调用标签处理器的doEndTag方法。<br>5.public void release()，通常WEB容器执行完自定义标签后，标签处理器会驻留在内存中，为其它请求服务器，直至停止web应用时，web容器才会调用release方法。  </p>
+<p><strong>自定义标签功能扩展</strong>  </p>
+<p>通过自定义标签可以控制标签后的jsp页面是否执行。</p>
+<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs erb"><span class="xml">                           //Java类</span><br><span class="xml">  public int doEndTag() throws JspException &#123;</span><br><span class="xml">    return SKIP_PAGE;</span><br><span class="xml">  &#125;                      </span><br><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">tag</span>&gt;</span>                    //tld</span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>整个jsp页面标签后的内容是否输出<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>skipPage<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">tag-class</span>&gt;</span>cn.itcast.web.tag.TagDemo2<span class="hljs-tag">&lt;/<span class="hljs-name">tag-class</span>&gt;</span></span><br><span class="xml">      <span class="hljs-tag">&lt;<span class="hljs-name">body-content</span>&gt;</span>JSP<span class="hljs-tag">&lt;/<span class="hljs-name">body-content</span>&gt;</span></span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">tag</span>&gt;</span>                </span><br><br><span class="xml">                         //实现</span><br><span class="xml">&lt;%</span><span class="ruby">@ page language=<span class="hljs-string">&quot;java&quot;</span>  pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span></span><span class="xml">%&gt;</span><br><span class="xml">&lt;%</span><span class="ruby">@ taglib prefix=<span class="hljs-string">&quot;itcast&quot;</span> uri=<span class="hljs-string">&quot;http://www.hgnc.net/jsp2-tag&quot;</span></span><span class="xml">%&gt;</span><br><br><span class="xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">HTML</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>整个jsp是否输出<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">  uuu</span><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">itcast:skipPage</span>&gt;</span>kkkkkkkkkkkkl<span class="hljs-tag">&lt;/<span class="hljs-name">itcast:skipPage</span>&gt;</span></span><br><span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml">gggg</span><br><span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+<p>通过自定义标签可以控制jsp页面某一部分内容重复执行。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs typescript">int x;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> int doAfterBody() throws JspException &#123;<br>	<span class="hljs-keyword">if</span>(x--&gt;<span class="hljs-number">0</span>)<br>		<span class="hljs-keyword">return</span> IterationTag.EVAL_BODY_AGAIN;<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-keyword">return</span> IterationTag.SKIP_BODY;<br>&#125;<br><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> int doStartTag() throws JspException &#123;<br>	x=<span class="hljs-number">5</span>;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.EVAL_BODY_INCLUDE;<br>&#125;<br>&lt;tag&gt;<br>    &lt;description&gt;循环输出标签体&lt;/description&gt;<br>    &lt;name&gt;loopbody&lt;/name&gt;<br>    &lt;tag-<span class="hljs-class"><span class="hljs-keyword">class</span>&gt;<span class="hljs-title">cn</span>.<span class="hljs-title">itcast</span>.<span class="hljs-title">web</span>.<span class="hljs-title">tag</span>.<span class="hljs-title">TagDemo4</span>&lt;/<span class="hljs-title">tag</span>-<span class="hljs-title">class</span>&gt;</span><br><span class="hljs-class">    &lt;<span class="hljs-title">body</span>-<span class="hljs-title">content</span>&gt;<span class="hljs-title">JSP</span>&lt;/<span class="hljs-title">body</span>-<span class="hljs-title">content</span>&gt;</span><br><span class="hljs-class">&lt;/<span class="hljs-title">tag</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>通过自定义标签可以修改jsp页面内容输出。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">doStartTag</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> JspException </span>&#123;<br>	<span class="hljs-keyword">return</span> BodyTag.EVAL_BODY_BUFFERED;<br>&#125;<br><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">doEndTag</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> JspException </span>&#123;<br>	BodyContent bc=<span class="hljs-keyword">this</span>.getBodyContent();<br>	String content=bc.getString();<br>	content=content.toUpperCase();<br>	<span class="hljs-keyword">try</span> &#123;<br>		<span class="hljs-keyword">this</span>.pageContext.getOut().write(content);<br>	&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>		<span class="hljs-comment">// TODO Auto-generated catch block</span><br>		e.printStackTrace();<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.<span class="hljs-title">doEndTag</span><span class="hljs-params">()</span></span>;<br>&#125;<br>&lt;itcast:modibody&gt;<br>kkkkkkkkkkkkl&lt;br /&gt;<br>&lt;/itcast:modibody&gt;<br></code></pre></td></tr></table></figure>
+<h2 id="简单标签"><a href="#简单标签" class="headerlink" title="简单标签"></a>简单标签</h2><p>由于传统标签使用三个标签接口来完成不同的功能，显得过于繁琐，不利于标签技术的推广， SUN公司为降低标签技术的学习难度，在JSP 2.0中定义了一个更为简单、便于编写和调用的SimpleTag接口来实现标签的功能。实现SimpleTag接口的标签通常称为简单标签。简单标签共定义了5个方法：<br>setJspContext方法，setParent和getParent方法，setJspBody方法，doTag方法</p>
+<p><strong>SimpleTag接口方法的执行顺序</strong><br>当web容器开始执行标签时，会调用如下方法完成标签的初始化<br>WEB容器调用标签处理器对象的setJspContext方法，将代表JSP页面的pageContext对象传递给标签处理器对象。<br>WEB容器调用标签处理器对象的setParent方法，将父标签处理器对象传递给这个标签处理器对象。注意，只有在标签存在父标签的情况下，WEB容器才会调用这个方法。<br>如果调用标签时设置了属性，容器将调用每个属性对应的setter方法把属性值传递给标签处理器对象。如果标签的属性值是EL表达式或脚本表达式，则WEB容器首先计算表达式的值，然后把值传递给标签处理器对象。<br>如果简单标签有标签体，容器将调用setJspBody方法把代表标签体的JspFragment对象传递进来。<br>执行标签时：<br>容器调用标签处理器的doTag()方法，开发人员在方法体内通过操作JspFragment对象，就可以实现是否执行、迭代、修改标签体的目的。  </p>
+<p><strong>JspFragment类</strong><br>javax.servlet.jsp.tagext.JspFragment类是在JSP2.0中定义的，它的实例对象代表JSP页面中的一段符合JSP语法规范的JSP片段，这段JSP片段中不能包含JSP脚本元素。  </p>
+<p>WEB容器在处理简单标签的标签体时，会把标签体内容用一个JspFragment对象表示，并调用标签处理器对象的setJspBody方法把JspFragment对象传递给标签处理器对象。JspFragment类中只定义了两个方法，如下所示：  </p>
+<p>getJspContext方法<br>用于返回代表调用页面的JspContext对象.  </p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">invoke</span>(<span class="hljs-params">java.io.Writer <span class="hljs-keyword">out</span></span>)  </span><br></code></pre></td></tr></table></figure>
+<p>用于执行JspFragment对象所代表的JSP代码片段<br>参数out用于指定将JspFragment对象的执行结果写入到哪个输出流对象中，如果传递给参数out的值为null，则将执行结果写入到JspContext.getOut()方法返回的输出流对象中。(简而言之，可以理解为写给浏览器)  </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs scala">显示标签体<br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-meta">@Override</span><br>	public void doTag() <span class="hljs-keyword">throws</span> <span class="hljs-type">JspException</span>, <span class="hljs-type">IOException</span> &#123;<br>		<span class="hljs-type">JspFragment</span> jf=<span class="hljs-keyword">this</span>.getJspBody();<br>		jf.invoke(<span class="hljs-keyword">this</span>.getJspContext().getOut());<br>		<span class="hljs-keyword">super</span>.doTag();<br>	&#125;<br>&#125;<br>不显示标签体<br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-meta">@Override</span><br>	public void doTag() <span class="hljs-keyword">throws</span> <span class="hljs-type">JspException</span>, <span class="hljs-type">IOException</span> &#123;<br><br>	&#125;<br>&#125;<br><span class="hljs-comment">//重复显示</span><br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo2</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-meta">@Override</span><br>	public void doTag() <span class="hljs-keyword">throws</span> <span class="hljs-type">JspException</span>, <span class="hljs-type">IOException</span> &#123;<br>		<span class="hljs-type">JspFragment</span> jf=<span class="hljs-keyword">this</span>.getJspBody();<br>		<span class="hljs-keyword">for</span>(int i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">5</span>;i++)<br>			jf.invoke(<span class="hljs-keyword">this</span>.getJspContext().getOut());<br><span class="hljs-comment">//与这个等价jf.invoke(null);</span><br>		<span class="hljs-keyword">super</span>.doTag();<br>	&#125;<br>&#125;<br><span class="hljs-comment">//修改标签内容</span><br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo3</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-meta">@Override</span><br>	public void doTag() <span class="hljs-keyword">throws</span> <span class="hljs-type">JspException</span>, <span class="hljs-type">IOException</span> &#123;<br>		<span class="hljs-type">JspFragment</span> jf=<span class="hljs-keyword">this</span>.getJspBody();<br>		<span class="hljs-type">StringWriter</span> sw=<span class="hljs-keyword">new</span> <span class="hljs-type">StringWriter</span>();<br>		jf.invoke(sw);<br><br>		<span class="hljs-type">String</span> content=sw.toString();<br>		content=content.toUpperCase();<br><br>		<span class="hljs-keyword">this</span>.getJspContext().getOut().write(content);		<br>	&#125;<br>&#125;<br><span class="hljs-comment">//停止显示标签后面文档内容</span><br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo4</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-meta">@Override</span><br>	public void doTag() <span class="hljs-keyword">throws</span> <span class="hljs-type">JspException</span>, <span class="hljs-type">IOException</span> &#123;<br>		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-type">SkipPageException</span>();<br>	&#125;<br>&#125;<br>    &lt;uri&gt;http:<span class="hljs-comment">//www.hgnc.net/jsp2-tagSimple&lt;/uri&gt;</span><br>    &lt;tag&gt;<br>        &lt;name&gt;showbody&lt;/name&gt;<br>        &lt;tag-<span class="hljs-class"><span class="hljs-keyword">class</span><span class="hljs-title">&gt;cn</span>.<span class="hljs-title">itcast</span>.<span class="hljs-title">web</span>.<span class="hljs-title">simpletag</span>.<span class="hljs-title">SimpleDemo1&lt;/tag-class&gt;</span></span><br><span class="hljs-class">        <span class="hljs-title">&lt;body-content&gt;scriptless&lt;/body-content&gt;</span></span><br><span class="hljs-class">    <span class="hljs-title">&lt;/tag&gt;</span></span><br><span class="hljs-class"><span class="hljs-title">&lt;%@</span> <span class="hljs-title">page</span> <span class="hljs-title">language=</span>&quot;<span class="hljs-title">java</span>&quot; <span class="hljs-title">pageEncoding=</span>&quot;<span class="hljs-title">UTF-8</span>&quot;<span class="hljs-title">%&gt;</span></span><br><span class="hljs-class"><span class="hljs-title">&lt;%@</span> <span class="hljs-title">taglib</span> <span class="hljs-title">prefix=</span>&quot;<span class="hljs-title">itcast</span>&quot; <span class="hljs-title">uri=</span>&quot;<span class="hljs-title">http</span></span>:<span class="hljs-comment">//www.hgnc.net/jsp2-tagSimple&quot;%&gt;</span><br><br>&lt;!<span class="hljs-type">DOCTYPE</span> <span class="hljs-type">HTML</span> <span class="hljs-type">PUBLIC</span> <span class="hljs-string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>&gt;<br>&lt;html&gt;<br>	&lt;head&gt;<br>		&lt;title&gt;简单标签&lt;/title&gt;<br>	&lt;/head&gt;<br><br>	&lt;body&gt;<br>		&lt;itcast:showbody&gt;ssssssssssssss<br>		&lt;/itcast:showbody&gt;<br>	&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>invoke方法详解</strong><br>invoke方法可以说是JspFragment最重要的方法，利用这个方法可以控制是否执行和输出标签体的内容、是否迭代执行标签体的内容或对标签体的执行结果进行修改后再输出。例如：<br>在标签处理器中如果没有调用invoke方法，其结果就相当于忽略标签体内容；<br>在标签处理器中重复调用invoke方法，则标签体内容将会被重复执行；<br>若想在标签处理器中修改标签体内容，只需在调用invoke方法时指定一个可取出结果数据的输出流对象（例如StringWriter），让标签体的执行结果输出到该输出流对象中，然后从该输出流对象中取出数据进行修改后再输出到目标设备，即可达到修改标签体的目的。  </p>
+<p><strong>开发带属性的标签</strong><br>自定义标签可以定义一个或多个属性，这样，在JSP页面中应用自定义标签时就可以设置这些属性的值，通过这些属性为标签处理器传递参数信息，从而提高标签的灵活性和复用性。<br>要想让一个自定义标签具有属性，通常需要完成两个任务：<br>在标签处理器中编写每个属性对应的setter方法<br>在TLD文件中描术标签的属性  </p>
+<p>为自定义标签定义属性时，每个属性都必须按照JavaBean的属性命名方式，在标签处理器中定义属性名对应的setter方法，用来接收JSP页面调用自定义标签时传递进来的属性值。 例如属性url，在标签处理器类中就要定义相应的setUrl(String url)方法。  </p>
+<p>在标签处理器中定义相应的set方法后，JSP引擎在解析执行开始标签前，也就是调用doStartTag方法前，会调用set属性方法，为标签设置属性。  </p>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vbscript-html"><span class="vbscript">&lt;%@ page language=<span class="hljs-string">&quot;java&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="vbscript">&lt;%@page import=<span class="hljs-string">&quot;java.util.Date&quot;</span>%&gt;</span><br><span class="vbscript">&lt;%@ taglib prefix=<span class="hljs-string">&quot;itcast&quot;</span> uri=<span class="hljs-string">&quot;http:\//www.hgnc.net/jsp2-tagSimple&quot;</span>%&gt;</span><br><span class="xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">HTML</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">		<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>带属性标签<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml">		<span class="hljs-tag">&lt;<span class="hljs-name">itcast:prop</span> <span class="hljs-attr">times</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">date</span>=<span class="hljs-string">&quot;</span></span></span><span class="vbscript">&lt;%=<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()%&gt;</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span>kkkkkkkkkkkkl<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span></span><br><span class="xml">		<span class="hljs-tag">&lt;/<span class="hljs-name">itcast:prop</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">tag</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>prop<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tag-class</span>&gt;</span>cn.itcast.web.simpletag.SimpleDemo5<span class="hljs-tag">&lt;/<span class="hljs-name">tag-class</span>&gt;</span>   <br>    <span class="hljs-tag">&lt;<span class="hljs-name">body-content</span>&gt;</span>scriptless<span class="hljs-tag">&lt;/<span class="hljs-name">body-content</span>&gt;</span>     <br>    <span class="hljs-tag">&lt;<span class="hljs-name">attribute</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>times<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">required</span>&gt;</span>yes<span class="hljs-tag">&lt;/<span class="hljs-name">required</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">attribute</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">attribute</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>date<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">required</span>&gt;</span>yes<span class="hljs-tag">&lt;/<span class="hljs-name">required</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">rtexprvalue</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">rtexprvalue</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">attribute</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">tag</span>&gt;</span>  <br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> cn.itcast.web.simpletag;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.io.StringWriter;<br><span class="hljs-keyword">import</span> java.util.Date;<br><br><span class="hljs-keyword">import</span> javax.servlet.jsp.JspException;<br><span class="hljs-keyword">import</span> javax.servlet.jsp.SkipPageException;<br><span class="hljs-keyword">import</span> javax.servlet.jsp.tagext.JspFragment;<br><span class="hljs-keyword">import</span> javax.servlet.jsp.tagext.SimpleTagSupport;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemo5</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleTagSupport</span> </span>&#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> times;<br>	<span class="hljs-keyword">private</span> Date date;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTimes</span><span class="hljs-params">(<span class="hljs-keyword">int</span> times)</span> </span>&#123;<br>		<span class="hljs-keyword">this</span>.times = times;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDate</span><span class="hljs-params">(Date date)</span> </span>&#123;<br>		<span class="hljs-keyword">this</span>.date = date;<br>	&#125;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doTag</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> JspException, IOException </span>&#123;<br>		<span class="hljs-keyword">this</span>.getJspContext().getOut().write(date.toString());<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;times;i++)<br>			<span class="hljs-keyword">this</span>.getJspBody().invoke(<span class="hljs-keyword">null</span>);<br>		<span class="hljs-comment">//throw new SkipPageException();</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>案例</strong><br>使用标签控制页面逻辑案例：</p>
+<h2 id="JSTL标签库"><a href="#JSTL标签库" class="headerlink" title="JSTL标签库"></a>JSTL标签库</h2><p>核心标签，国际化标签，数据库标签，Xml标签，Jstl函数（el函数）</p>
+<p>一些常见的：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs llvm">&lt;<span class="hljs-keyword">c</span>:out&gt;<br>&lt;<span class="hljs-keyword">c</span>:set&gt;<br>&lt;<span class="hljs-keyword">c</span>:remove&gt;<br>&lt;<span class="hljs-keyword">c</span>:<span class="hljs-keyword">catch</span>&gt;<br>&lt;<span class="hljs-keyword">c</span>:if&gt;<br>&lt;<span class="hljs-keyword">c</span>:choose&gt;<br>&lt;<span class="hljs-keyword">c</span>:forEach&gt;<br>&lt;<span class="hljs-keyword">c</span>:param&gt;<br>&lt;<span class="hljs-keyword">c</span>:url&gt;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/03/10/2018-02-15-javaweb7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Javaweb学习07-EL表达式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/02/19/2018-02-19-PAT-1074/">
+                        <span class="hidden-mobile">1074. Reversing Linked List (25) -PAT甲级</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
