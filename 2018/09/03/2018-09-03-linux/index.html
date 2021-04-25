@@ -273,11 +273,11 @@
 <p>大功告成。</p>
 <h4 id="Git-amp-Atom的使用"><a href="#Git-amp-Atom的使用" class="headerlink" title="Git&amp;Atom的使用"></a>Git&amp;Atom的使用</h4><p>使用终端安装Git并进行配置:</p>
 <blockquote>
-<p>sudo apt-get install git<br>git –version<br>git config –global user.name “XXX”<br>git config –global user.email “<a href="mailto:&#88;&#88;&#88;&#64;&#x71;&#x71;&#46;&#99;&#111;&#x6d;">&#88;&#88;&#88;&#64;&#x71;&#x71;&#46;&#99;&#111;&#x6d;</a>“</p>
+<p>sudo apt-get install git<br>git –version<br>git config –global user.name “XXX”<br>git config –global user.email “<a href="mailto:&#88;&#88;&#x58;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#88;&#88;&#x58;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a>“</p>
 </blockquote>
 <p>本地创建SSH Key。在终端输入（用自己的注册邮箱!）:</p>
 <blockquote>
-<p>ssh-keygen -t rsa -C “<a href="mailto:&#x79;&#x6f;&#117;&#x72;&#101;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#46;&#99;&#x6f;&#109;">&#x79;&#x6f;&#117;&#x72;&#101;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#46;&#99;&#x6f;&#109;</a>“</p>
+<p>ssh-keygen -t rsa -C “<a href="mailto:&#121;&#x6f;&#x75;&#114;&#x65;&#109;&#97;&#x69;&#x6c;&#x40;&#x65;&#120;&#x61;&#109;&#x70;&#x6c;&#x65;&#x2e;&#99;&#111;&#x6d;">&#121;&#x6f;&#x75;&#114;&#x65;&#109;&#97;&#x69;&#x6c;&#x40;&#x65;&#120;&#x61;&#109;&#x70;&#x6c;&#x65;&#x2e;&#99;&#111;&#x6d;</a>“</p>
 </blockquote>
 <p>在主目录下找到.ssh目录，有id_rsa和id_rsa.pub两个文件，是SSH Key的密钥对,然后连接github上的远程仓库:登陆github，在”setting”中找到”SSH Keys”页面，New Key 输入id_rsa.pub中内容，title随意<br><img src="/img/ssh.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>在自定义目录下建立本地仓库:</p>
@@ -286,7 +286,7 @@
 </blockquote>
 <p>克隆github上的仓库</p>
 <blockquote>
-<p>git clone <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#x69;&#x74;&#104;&#117;&#x62;&#46;&#99;&#x6f;&#x6d;">&#103;&#105;&#116;&#x40;&#103;&#x69;&#x74;&#104;&#117;&#x62;&#46;&#99;&#x6f;&#x6d;</a>:YourCat/YourCat.github.io.git</p>
+<p>git clone <a href="mailto:&#103;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;">&#103;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;</a>:YourCat/YourCat.github.io.git</p>
 </blockquote>
 <p>第一次clone会收到警告，确认GitHub的Key的指纹信息是否真的来自GitHub的服务器,输入yes即可</p>
 <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vbnet">The authenticity <span class="hljs-keyword">of</span> host <span class="hljs-comment">&#x27;github.com (xx.xx.xx.xx)&#x27; can&#x27;t be established.</span><br>RSA <span class="hljs-keyword">key</span> fingerprint <span class="hljs-built_in">is</span> xx.xx.xx.xx.xx.<br>Are you sure you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">continue</span> connecting (yes/no)?<br></code></pre></td></tr></table></figure>
@@ -296,7 +296,7 @@
 </blockquote>
 <p>灵活使用以下命令完成同步操作</p>
 <blockquote>
-<p>git add example.markdown             //添加指定文件到暂存区<br>git commit -m “description”          //提交暂存区到仓库区<br>git commit -a                        //提交工作区自上次commit之后的变化到仓库区<br>git remote add origin <a href="mailto:&#103;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#x6d;</a>:YourCat/YourCat.github.io.git    //关联远程仓库<br>git pull origin master               //合并远程分支与本地分支<br>git push origin master               //提交到远程仓库进行同步</p>
+<p>git add example.markdown             //添加指定文件到暂存区<br>git commit -m “description”          //提交暂存区到仓库区<br>git commit -a                        //提交工作区自上次commit之后的变化到仓库区<br>git remote add origin <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;</a>:YourCat/YourCat.github.io.git    //关联远程仓库<br>git pull origin master               //合并远程分支与本地分支<br>git push origin master               //提交到远程仓库进行同步</p>
 </blockquote>
 <p>第一次推送加上-u参数</p>
 <blockquote>

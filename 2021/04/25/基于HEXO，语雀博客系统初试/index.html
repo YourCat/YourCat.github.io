@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>基于HEXO，语雀博客系统初试 - iHan</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>iHan's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基于HEXO，语雀博客系统初试">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-25 10:39" pubdate>
+        2021年4月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于HEXO，语雀博客系统初试</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>基于平台等原因，决定将原先无人问津的个人博客好好整顿一番，使用hexo框架并在语雀平台同步。</p>
+<p>ps：hexo是一款基于node.js的静态博客框架，hexo用于博客在线编辑</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h4 id="大致步骤"><a href="#大致步骤" class="headerlink" title="大致步骤"></a>大致步骤</h4><ol>
+<li>安装nodejs，npm</li>
+<li>安装hexo，本地部署</li>
+<li>创建仓库</li>
+<li>安装Git并绑定GitHub</li>
+<li>发布网站</li>
+<li>自定义域名</li>
+<li>博客高级样式</li>
+<li>同步语雀<h4 id="安装nodejs，npm"><a href="#安装nodejs，npm" class="headerlink" title="安装nodejs，npm"></a>安装nodejs，npm</h4>链接：<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a> ，新版nodejs已经集成了npm<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619139824262-abfe229a-c185-4f7b-965e-8622322e29f3.png#clientId=u9d2be740-e3b1-4&from=drop&height=179&id=ue872dbf2&margin=%5Bobject%20Object%5D&name=nodejs.png&originHeight=325&originWidth=1223&originalType=binary&size=28801&status=done&style=none&taskId=u8cd9bbb5-d434-4cd3-8634-97e1851df8a&width=672" srcset="/img/loading.gif" lazyload alt="nodejs.png"><br>在cmd输入以下两条指令测试是否安装成功<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">node -v<br>npm -v<br></code></pre></td></tr></table></figure>
+<img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619140474428-e35f60e5-cb7b-4908-8a44-3710511e0838.png#clientId=u9d2be740-e3b1-4&from=paste&height=92&id=uc1f2c143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=191&originWidth=363&originalType=binary&size=10660&status=done&style=none&taskId=u8e0b1686-d612-4128-a755-5b567b5e72a&width=175.5" srcset="/img/loading.gif" lazyload alt="image.png"><h4 id="安装hexo，本地部署"><a href="#安装hexo，本地部署" class="headerlink" title="安装hexo，本地部署"></a>安装hexo，本地部署</h4>首先在电脑上新建一个文件夹，用于存放hexo框架和以后写的博客文件，使用npm命令安装hexo<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g hexo-cli <br></code></pre></td></tr></table></figure>
+初始化博客系统<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo init blog<br></code></pre></td></tr></table></figure>
+快速创建一篇测试博客<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new test_blog <br>hexo g<br>hexo s<br></code></pre></td></tr></table></figure>
+以上三条命令的作用分别是：创建新博客、生成网站、开启本地预览</li>
+</ol>
+<p>成功后在网页端访问4000端口如下效果，<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a><br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619140885549-2b33a33f-3765-4f90-8ec5-cc7cb08692c4.png#clientId=u9d2be740-e3b1-4&from=paste&height=241&id=uf9977e92&margin=%5Bobject%20Object%5D&name=image.png&originHeight=664&originWidth=1848&originalType=binary&size=551711&status=done&style=none&taskId=u58bd681e-b939-4d8f-9f5a-03f24cf32cd&width=672" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>完成以上操作，仅可以在本地使用hexo博客系统了，接下来就是发布到网上。</p>
+<h4 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h4><p>在<a target="_blank" rel="noopener" href="https://github.com/">github</a>上新建一个仓库，名字<strong>必须</strong>是：用户名.github.io<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619141716652-4edb970c-5c2f-439b-aa27-a7223f5e3855.png#clientId=u9d2be740-e3b1-4&from=paste&height=129&id=uf5030f70&margin=%5Bobject%20Object%5D&name=image.png&originHeight=258&originWidth=550&originalType=binary&size=22076&status=done&style=none&taskId=ucf2daf3f-4309-4e0d-a379-4157dc376a0&width=275" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="安装Git并绑定GitHub"><a href="#安装Git并绑定GitHub" class="headerlink" title="安装Git并绑定GitHub"></a>安装Git并绑定GitHub</h4><p>Git是开源的分布式版本控制系统，用于将本地博客上传到GitHub<br>链接：<a target="_blank" rel="noopener" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a>  ，<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/896043488029600">Git教程</a></p>
+<p>鼠标右键或者直接在菜单栏处使用GitBash<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619142241543-3761455e-edcb-48aa-b314-13b49920eb7d.png#clientId=u9d2be740-e3b1-4&from=paste&height=65&id=u79bad9c6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=82&originWidth=192&originalType=binary&size=8966&status=done&style=none&taskId=u5b07ac78-5d1d-47b2-b881-44af6c62f78&width=153" srcset="/img/loading.gif" lazyload alt="image.png"><br>设置用户名和密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global user.name <span class="hljs-string">&quot;你的GitHub用户名&quot;</span><br>git config --global user.email <span class="hljs-string">&quot;你的GitHub注册邮箱&quot;</span><br></code></pre></td></tr></table></figure>
+<p>生成ssh文件，连敲三个回车即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-keygen -t rsa -C <span class="hljs-string">&quot;你的GitHub注册邮箱&quot;</span><br></code></pre></td></tr></table></figure>
+<p>找到本地的ssh文件，我的路径：C:\Windows\System32\drivers\etc<br>在GitHub的Setting里新建一个<a target="_blank" rel="noopener" href="https://github.com/settings/ssh/new">SSH Key</a>，Key为刚刚的ssh文件内容<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619142668452-26d32ecb-a25d-4780-9388-78724f623383.png#clientId=u9d2be740-e3b1-4&from=paste&height=36&id=u2b741dcc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=72&originWidth=946&originalType=binary&size=5663&status=done&style=none&taskId=u6f8a95f9-ce87-4b96-a73b-f2e89a00f63&width=473" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619142828363-5697ffb8-de3a-405c-bb39-d67d30ad396f.png#clientId=u9d2be740-e3b1-4&from=paste&height=249&id=uaff23af7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=527&originWidth=863&originalType=binary&size=36598&status=done&style=none&taskId=u02c3c2b0-3216-4beb-8beb-691440da57a&width=407.5" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>用GitBash测试公钥是否配置成功，看到success就ok了<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619142967661-c51a448a-757d-4a49-9602-2e4add2e623c.png#clientId=u9d2be740-e3b1-4&from=paste&height=80&id=ub36ba13a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=160&originWidth=1121&originalType=binary&size=24766&status=done&style=none&taskId=u14599c85-25f1-4995-928d-1b3b3dc207f&width=560.5" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="发布网站"><a href="#发布网站" class="headerlink" title="发布网站"></a>发布网站</h4><p>本地的Git已经绑定到GItHub上，接下来就是把hexo博客发布上去。<br>首先修改blog下的_config.yml配置文件，该文件用于将hexo和Github关联，repo为仓库的完整路径（下图箭头）<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619143298664-64fd0eef-5b82-41ca-9ee2-c1f8f1d218b5.png#clientId=u9d2be740-e3b1-4&from=paste&height=236&id=ube1fb93d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=472&originWidth=427&originalType=binary&size=26912&status=done&style=none&taskId=ubd305813-7c0f-4675-9921-c73f03003e9&width=213.5" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619143553511-502ffdbd-e023-4362-8cac-5506ca27b782.png#clientId=u9d2be740-e3b1-4&from=paste&height=23&id=ua8206e31&margin=%5Bobject%20Object%5D&name=image.png&originHeight=46&originWidth=1251&originalType=binary&size=6457&status=done&style=none&taskId=u8d7f162b-47be-4969-9fad-8bdb965b3a9&width=625.5" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">deploy:<br>  <span class="hljs-built_in">type</span>: git<br>  repo: https://github.com/YourCat/YourCat.github.io.git<br>  branch: master<br></code></pre></td></tr></table></figure>
+<p>该配置用于告诉hexo博客部署在哪里，我们还需要用npm安装一个部署插件，在cmd中输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install hexo-deployer-git --save<br></code></pre></td></tr></table></figure>
+<p>这时在GitBash输入以hexo下三条命令发布博客</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean <br>hexo g <br>hexo d<br></code></pre></td></tr></table></figure>
+<p>这一步经常会遇到如下两种问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">OpenSSL SSL_read: Connection was reset, errno 10054<br>Failed to connect to github.com port 443: Timed out<br></code></pre></td></tr></table></figure>
+<p>这是由网络不稳定导致的连接超时，网上有许多<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44184794/article/details/107431603">解决方案</a>，这个时候你会发现无法访问GitHub的网站了。<br>暴力的话重复几次上述三条命令也可以成功。<br>发布成功是如下这样子，同时在github的仓库里可以看到本地的hexo博客已经过来了<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619147006313-509619d3-1fd0-42c0-8c62-94e4db458c27.png#clientId=u9d2be740-e3b1-4&from=paste&height=339&id=u59636062&margin=%5Bobject%20Object%5D&name=image.png&originHeight=678&originWidth=1024&originalType=binary&size=105623&status=done&style=none&taskId=ua92a5ee7-bfc7-457c-a37f-e993817a09e&width=512" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619147049134-316236b1-16b8-4f93-b13f-c2d15b9b353a.png#clientId=u9d2be740-e3b1-4&from=paste&height=165&id=uca9831df&margin=%5Bobject%20Object%5D&name=image.png&originHeight=330&originWidth=669&originalType=binary&size=27179&status=done&style=none&taskId=u22f848ce-2f76-4a23-9441-3b49b7f0ba8&width=334.5" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>这个时候已经可以在外网访问到博客了，差不多成功了~<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619147240943-71521c81-708f-495f-8f22-50ae42586944.png#clientId=u9d2be740-e3b1-4&from=paste&height=157&id=u8fbd4c14&margin=%5Bobject%20Object%5D&name=image.png&originHeight=451&originWidth=1511&originalType=binary&size=436209&status=done&style=none&taskId=u5422e55f-57e7-4b36-ab8e-cc51e5fa8f5&width=526" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h4><p>完成以上的操作已经可以使用GitHub提供的域名xx.github.io访问到我们的博客项目了，但是作为一个新世纪的弄潮儿，怎么能够没有自己的个性化域名呢~</p>
+<p>1.首先在阿里云购买一个域名，买买买的事情就跳过了，直接进到域名控制台解析域名<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619149582070-af0d4f94-03e9-470d-a14f-69efbc0ef3ae.png#clientId=u9d2be740-e3b1-4&from=paste&height=30&id=u4a8a9b12&margin=%5Bobject%20Object%5D&name=image.png&originHeight=60&originWidth=2225&originalType=binary&size=9099&status=done&style=none&taskId=u042339f6-8902-45c2-8340-39d4ecec6d3&width=1113" srcset="/img/loading.gif" lazyload alt="image.png"><br>添加如下两条记录，<br>记录：www，类型：CNAME，记录值：xx.github.io<br>记录：@，类型：A，记录值：ip地址（ping 到xx.github.io查看）<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619150858085-50678dab-8dc1-4ebc-bda9-a80e82e59220.png#clientId=u9d2be740-e3b1-4&from=paste&height=51&id=uae8b58d6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=102&originWidth=2152&originalType=binary&size=13669&status=done&style=none&taskId=u6b5a9524-c0b4-4f3c-82ff-d63aeccd548&width=1076" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>2.在GitHub的仓库里设置自己的域名，Settings-&gt;GitHub Pages<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619150676094-dbf68022-2668-49c6-a22d-94715838f01a.png#clientId=u9d2be740-e3b1-4&from=paste&height=134&id=u15147211&margin=%5Bobject%20Object%5D&name=image.png&originHeight=268&originWidth=884&originalType=binary&size=35075&status=done&style=none&taskId=ue65a81f3-1b5f-4803-aa6d-bf79b0fbdef&width=442" srcset="/img/loading.gif" lazyload alt="image.png"><br>ps：以上警告就是因为域名解析没配置好，需要一定时间生效，先继续下一步配置<br>3.在本地文件夹下创建CNAME文件，内容为域名<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619329459028-9d1198fe-f68a-4c93-8126-67527e47246c.png#clientId=u20e143db-696a-4&from=paste&height=213&id=ub065b687&margin=%5Bobject%20Object%5D&name=image.png&originHeight=425&originWidth=484&originalType=binary&size=58057&status=done&style=none&taskId=u5de6cd06-dd28-498f-b801-ae1f750bad9&width=242" srcset="/img/loading.gif" lazyload alt="image.png"><br>三部曲后访问自己的域名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean<br>hexo g<br>hexo d<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619151311400-ff07a884-6007-464b-b2c3-381f6f264040.png#clientId=u9d2be740-e3b1-4&from=paste&height=349&id=u7788e241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1378&originalType=binary&size=419052&status=done&style=none&taskId=u3694b37c-a4f3-431d-90c3-2712791dfb2&width=689" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="博客高级样式"><a href="#博客高级样式" class="headerlink" title="博客高级样式"></a>博客高级样式</h4><p>默认的主题或许过于单调，弄潮儿又来更换主题了，在blog文件下输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/fluid-dev/hexo-theme-fluid themes/fluid<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619152703323-c8d0a723-a3ca-4b3c-b71a-917e7537e689.png#clientId=u9d2be740-e3b1-4&from=paste&height=136&id=u6b086f0e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=271&originWidth=1229&originalType=binary&size=55545&status=done&style=none&taskId=u646dac94-2c90-4a6c-84d5-f7e72d08905&width=614.5" srcset="/img/loading.gif" lazyload alt="image.png"><br>好看的主题哪来的？安利安利-&gt; <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?type=content&q=hexo%E4%B8%BB%E9%A2%98">here</a> &lt;-感谢(●’◡’●)</p>
+<p>三部曲！这里我又报错了！Spawn fiaed…<br><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619154531571-dd47f28b-b9dc-41fe-b657-c19e7bdd1b44.png#clientId=u9d2be740-e3b1-4&from=paste&height=204&id=u337b9eda&margin=%5Bobject%20Object%5D&name=image.png&originHeight=407&originWidth=1128&originalType=binary&size=58345&status=done&style=none&taskId=ue5e3ef69-312b-4e06-817f-f8c5a09dcbd&width=564" srcset="/img/loading.gif" lazyload alt="image.png"><br>直接导航-&gt;<a target="_blank" rel="noopener" href="https://blog.csdn.net/HTL2018/article/details/106876940">解决方案</a> 一次不行多来几次…<br>访问新主题！阅读README和<a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/start/">官网</a>食用新主题！<br>大致步骤：<br>1.在hexo目录的_config.yml文件中指定主题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">theme: fluid  <span class="hljs-comment"># 指定主题</span><br>language: zh-CN  <span class="hljs-comment"># 指定语言，会影响主题显示的语言，按需修改</span><br></code></pre></td></tr></table></figure>
+<p>2.在fluid目录的_config.yml文件中修改配置信息（首页的标题，句子，背景图…）<br>3.第一次使用新建关于页</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new page about<br><br>在/<span class="hljs-built_in">source</span>/about/index.md下添加layout属性<br>---<br>title: about<br>date: 2020-02-23 19:20:33<br>layout: about<br>---<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/1123881/1619158378448-3de4f8b8-d25f-466a-be26-ba38d0b51a4e.png#clientId=u9d2be740-e3b1-4&from=paste&height=607&id=u2a11fd37&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1214&originWidth=1868&originalType=binary&size=3662110&status=done&style=none&taskId=u1a28c84a-18a5-4b66-ad7a-3f26ab5b234&width=934" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>上边是根据文档修改配置文件后的最终效果图~太美了😜</p>
+<h4 id="同步语雀"><a href="#同步语雀" class="headerlink" title="同步语雀"></a>同步语雀</h4><p>有点难，尚在研究，挂一个<a target="_blank" rel="noopener" href="https://www.yuque.com/joashzhao/blog/sync-yuque-to-hexo">教程</a>…<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/1123881/1619160630271-22ebd941-28a0-4a26-9c7b-bc0c6d123f7e.jpeg#clientId=u9d2be740-e3b1-4&from=drop&height=146&id=MqklL&margin=%5Bobject%20Object%5D&name=yuque_diagram.jpg&originHeight=368&originWidth=956&originalType=binary&size=53452&status=done&style=none&taskId=ua94302ec-a658-4f17-85f9-47f90fb650d&width=380" srcset="/img/loading.gif" lazyload alt="yuque_diagram.jpg"></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>本来以为有之前搭建博客的基础，换成hexo框架重新弄弄只是分分钟的事情，没想到却磕磕绊绊折腾了大半天，中间可能省略一些粗心的bug（尽可能都列出来），bug虽小也卡了好久，接下来要开始好好写博文了。</p>
+<p><strong>参考文章：</strong><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">https://zhuanlan.zhihu.com/p/26625249</a><br><a target="_blank" rel="noopener" href="https://www.yuque.com/joashzhao/blog/sync-yuque-to-hexo?language=en-us">https://www.yuque.com/joashzhao/blog/sync-yuque-to-hexo?language=en-us</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411G7cg?from=search&seid=13091592736216096382">https://www.bilibili.com/video/BV1c4411G7cg?from=search&amp;seid=13091592736216096382</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/z_johnny/article/details/104629805">https://blog.csdn.net/z_johnny/article/details/104629805</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/25/hello-hexo/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello Hexo</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/02/2021-4-2-task/">
+                        <span class="hidden-mobile">狂神SpingBoot 异步、定时、邮件任务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
