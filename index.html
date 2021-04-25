@@ -545,21 +545,31 @@ Redis事
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
-          狂神Redis-06 JRedis
+        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
+          狂神Redis-07 Springboot整合
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
+        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
           
           
             
           
-          六、Jedis使用Java来操作Redis，Jedis是Redis官方推荐使用的Java连接redis的客户端。
+          一、Nosql概述为什么使用Nosql
+1、单机Mysql时代
 
-导入依赖
-123456789101112&lt;!--导入jredis的包--&gt;&lt;dependency&gt;    &lt;groupId&gt;redis.clients&lt;/groupId&gt;    &lt;artifactId&gt;jedis&lt;/a
+
+90年代,一个网站的访问量一般不会太大，单个数据库完全够用。随着用户增多，网站出现以下问题
+
+数据量增加到一定程度，单机数据库就放不下了
+数据的索引（B+ Tree）,一个机器内存也存放不下
+访问量变大后（读写混合），一台服务器承受不住。
+
+
+2、Memcached(缓存) + Mysql + 垂直拆分（读写分离）
+
+网站80%的
         </a>
       </p>
 
@@ -591,31 +601,21 @@ Redis事
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
-          狂神Redis-07 Springboot整合
+        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
+          狂神Redis-06 JRedis
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/03/20/2021-3-20-redis07/" target="_self">
+        <a href="/2021/03/20/2021-3-20-redis06/" target="_self">
           
           
             
           
-          一、Nosql概述为什么使用Nosql
-1、单机Mysql时代
+          六、Jedis使用Java来操作Redis，Jedis是Redis官方推荐使用的Java连接redis的客户端。
 
-
-90年代,一个网站的访问量一般不会太大，单个数据库完全够用。随着用户增多，网站出现以下问题
-
-数据量增加到一定程度，单机数据库就放不下了
-数据的索引（B+ Tree）,一个机器内存也存放不下
-访问量变大后（读写混合），一台服务器承受不住。
-
-
-2、Memcached(缓存) + Mysql + 垂直拆分（读写分离）
-
-网站80%的
+导入依赖
+123456789101112&lt;!--导入jredis的包--&gt;&lt;dependency&gt;    &lt;groupId&gt;redis.clients&lt;/groupId&gt;    &lt;artifactId&gt;jedis&lt;/a
         </a>
       </p>
 
